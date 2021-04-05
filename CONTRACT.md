@@ -27,3 +27,5 @@ However if a team member is habitually not completing their tasks, they may be a
 Conflicts will generally be resolved by the team members who are not involved in the conflict. If this is not sufficient, course staff can be contacted.
 
 ### Signatures
+
+Anish Padhi 4/5/21
