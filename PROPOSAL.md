@@ -1,4 +1,8 @@
-	Our intention is to use the OpenFlights data sets “airports.dat” and “routes.dat” to create a directed and weighted graph of all of the airports and the routes 
+
+FINAL PROJECT PROPOSAL
+(padhi3-miw3-jorteg38-wpark26)
+
+Our intention is to use the OpenFlights data sets “airports.dat” and “routes.dat” to create a directed and weighted graph of all of the airports and the routes 
 between them, weighted by the distance from one airport to the other. We will implement a traversal along with shortest path and landmark path algorithms to 
 determine the best way to get from one location to another. In other words, the end result will be intended to produce answers to one very specific problem.
   
