@@ -2,7 +2,11 @@
 FINAL PROJECT PROPOSAL
 (padhi3-miw3-jorteg38-wpark26)
 
-  Our intention is to use the OpenFlights data sets “airports.dat” and “routes.dat” to create a directed and weighted graph of all of the airports and the routes 
+Leading Questions:
+What is the shortest available route between two given airports?
+What the the most central aiport relative to >=2 other airports?
+ 
+ Our intention is to use the OpenFlights data sets “airports.dat” and “routes.dat” to create a directed and weighted graph of all of the airports and the routes 
 between them, weighted by the distance from one airport to the other. We will implement a BFS traversal along with Djikstra's algorithm and betweenness centrality 
 mapping to determine the best way to get from one location to another, and the ideal place to be if one wanted to visit a selection of different locations from that
 point. In other words, the end result will be intended to produce answers to two very specific problem, finding the ideal path, and finding the ideal location.
@@ -21,14 +25,17 @@ After the routes and airports are properly read, we can proceed to make a graph 
 to the next, and beetwenness centrality mapping us find the most central airport given a set of airports one would be interested in visiting. The actual traversal 
 will be a BFS as there will be many airports spread all over the globe, making a DFS that starts on the wrong node run for a prohibitive amount of time. We expect 
 Djikstra's algorithm to take two pointers to nodes in a directed weighted graph of the airports with the routes and their distances as edges, and use these to find 
-the shortest path from one to the other considering the distances. We expect the runtime to be about O(N+Nlog(N)), where N is the number of nodes of the graph, as 
-that is how Djisktra’s algorithm works. The return value will be a vector of all the points on the graph (airports) visited to get from the start to the finish. For 
-betweenness centrality mapping, the input will be a vector of points on the graph (airports), which one may want to visit from their original location. The output 
-will be a singular point which is the most central point relative to the input.
+the shortest path from one to the other considering the distances. The simplest implementation of Djikstra's algorithm yield O(V^2), where V is the number of 
+vertices in the graph, but if we implement it ideally with a fibonnacci heap, we could get it down to O(E+VlogV), with E as the nummber of edges. The return value 
+will be a vector of all the points on the graph (airports) visited to get from the start to the finish. For betweenness centrality mapping, the input will be a 
+vector of points on the graph (airports), which one may want to visit from their original location. The output will be a singular point which is the most central 
+point relative to the input. Calculating betweenness requires finding shortest paths for every pair of vertices, which takes O(V^3), where V is the number of 
+vertices in the graph, but if we can find a way to treat the specific nodes we're looking at as a sparse graph, we could use Johnson's algorithm to get 
+O(V^2log(V)+VE).
 
 Timeline:
-Week of 4/12: Data Acquisition and Processing to create the tree
-Week of 4/19:  Complete BFS traversal
+Week of 4/12: Data Acquisition and Processing
+Week of 4/19: Complete graph and BFS traversal for graph
 Week of 4/26: Complete Djikstra's algorithm
 Week of 4/3: Complete Betweenness centrality mapping algorithm
 Week of 4/10: Refine the Documentation for the project and produce final presentation
