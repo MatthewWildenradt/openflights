@@ -15,5 +15,5 @@ The two algorithms we will be implementing are Djikstra's and betweenness centra
 - Week of 4/12: Data Acquisition and Processing
 - Week of 4/19: Complete graph and BFS traversal for graph
 - Week of 4/26: Complete Djikstra's algorithm
-- Week of 4/3: Complete Betweenness centrality mapping algorithm
-- Week of 4/10: Refine the Documentation for the project and produce final presentation
+- Week of 5/3: Complete Betweenness centrality mapping algorithm
+- Week of 5/10: Refine the Documentation for the project and produce final presentation
