@@ -15,7 +15,7 @@ LD = clang++
 OBJS_DIR = .objs
 
 # Add standard CS 225 object files
-OBJS += cs225/HSLAPixel.o cs225/PNG.o cs225/lodepng/lodepng.o
+# OBJS += cs225/HSLAPixel.o cs225/PNG.o cs225/lodepng/lodepng.o
 
 # -MMD and -MP asks clang++ to generate a .d file listing the headers used in the source code for use in the Make process.
 #   -MMD: "Write a depfile containing user headers"
@@ -86,7 +86,7 @@ ccred=$(shell echo -e "\033[0;31m")
 ccyellow=$(shell echo -e "\033[0;33m")
 ccend=$(shell echo -e "\033[0m")
 
-IS_EWS=$(shell hostname | grep "ews.illinois.edu") 
+IS_EWS=$(shell hostname | grep "ews.illinois.edu")
 IS_CORRECT_CLANG=$(shell clang -v 2>&1 | grep "version 6")
 ifneq ($(strip $(IS_EWS)),)
 ifeq ($(strip $(IS_CORRECT_CLANG)),)
