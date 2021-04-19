@@ -1,1 +1,1 @@
-.objs/Graph.o: .objs/Graph.cpp
+.objs/Graph.o: Graph.cpp

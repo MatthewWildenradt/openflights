@@ -1,1 +1,1 @@
-.objs/Airport.o: .objs/Airport.cpp
+.objs/Airport.o: Airport.cpp

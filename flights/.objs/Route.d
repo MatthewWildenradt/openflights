@@ -1,1 +1,1 @@
-.objs/Route.o: .objs/Route.cpp
+.objs/Route.o: Route.cpp
