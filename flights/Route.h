@@ -7,8 +7,8 @@ class Route{
   /**
    *@brief Constructs a Route given a source and destination
    *
-   *@param source the starting Airport
-   *@param destination the ending Airport
+   *@param source the starting Airport's IATA ID
+   *@param destination the ending Airport's IATA ID
    */
   Route(std::string source, std::string destination);
 

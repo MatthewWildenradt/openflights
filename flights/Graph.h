@@ -6,15 +6,20 @@
 
 class Graph{
 
+ public:
+  struct Node{
+    Airport data;
+    std::vector<Route> edges;
+  };
+
+
  private:
 
-  // A hashmap to retrieve edges for a respective airport
-  // Where the key represents the IATA code
-  // TODO! Use a set instead of a vector?
-  std::map<std::string, std::vector<Route>> edges;
-  std::vector<Airport> airports;
+  /* Hashmap storing Node pointers, accessible using airport IATA IDs */
+  std::map<std::string, Node*> airports;
 
-public:
+ public:
+
 
   /**
    *@brief Creates an empty graph
@@ -37,6 +42,10 @@ public:
    */
   Graph(std::vector<std::vector<std::string>> inputAirports, std::vector<std::vector<std::string>> routes);
 
+  /**
+   * Deallocates the graph's memory
+   */
+  ~Graph();
   /**
    *@brief adds an Airport to the graph
    *

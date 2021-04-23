@@ -5,6 +5,11 @@ class Airport{
  public:
 
   /**
+   * Airport default constructor
+   */
+  Airport();
+
+  /**
    *@brief Constructs an Airport
    *
    *@param IATA the Airport's IATA ID
