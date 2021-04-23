@@ -67,4 +67,11 @@ class Graph{
    */
   void addRoute(Route input);
   void addRoute(std::vector<std::string> input);
+
+  /**
+   *@brief returns a pointer to the node of the input
+   * 
+   *@param airport The standard abbreviated name of the airport
+  */
+  Node* getAirport(std::string name);
 };

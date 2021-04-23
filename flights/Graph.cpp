@@ -57,3 +57,8 @@ void Graph::addRoute(std::vector<std::string> input){
   Node* crntNode = airports.at(addThis.src);
   crntNode->edges.push_back(addThis);
 }
+
+
+Node* Graph::getAirport(std::string name) {
+    return Node();
+}
