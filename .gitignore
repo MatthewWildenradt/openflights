@@ -2,4 +2,4 @@ data/
 
 *.o
 
-flights/.objs/*
+./flights/.objs/*

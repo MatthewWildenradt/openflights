@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "csv_reader.h"
-
+#include "Graph.h"
 int main() {
     std::cout << "Hello Airports" << std::endl;
     CSVReader reader("../data/airports.dat");
