@@ -7,6 +7,12 @@
 class Graph{
 
  public:
+
+  /**
+   * Represents a node in the graph
+   * Contains a vector of directed edges
+   * As well as the airport that these edges belong to
+   */
   struct Node{
     Airport data;
     std::vector<Route> edges;
