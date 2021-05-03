@@ -60,5 +60,5 @@ void Graph::addRoute(std::vector<std::string> input){
 
 
 Node* Graph::getAirport(std::string name) {
-    return Node();
+    return airports.at(name);
 }
