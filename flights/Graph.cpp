@@ -86,7 +86,7 @@ double Graph::routeDist(Route route){
 
 vector<string> Graph::shortestPath(string start, string end){
 
-  //std::cout << "I am in shortestPath" << std::endl;
+
   std::set<string> traversed;
   map<string, Dijkstry> pathMap;
 
@@ -99,9 +99,8 @@ vector<string> Graph::shortestPath(string start, string end){
     double sRDist = std::numeric_limits<double>::max();
     // CurrentNode's distance from start
     double curDist = pathMap.at(currentNode->data.name).dist;
-    //std::cout << currentNode->data.name << std::endl;
+
     for(Route r : currentNode->edges){
-      //std::cout << " " << r.dest << std::endl;
       // If we've traversed this endpoint, don't mess with it
       if(traversed.find(r.dest) == traversed.end()){
 	// calculate the endpoint's distance from current node
@@ -109,7 +108,6 @@ vector<string> Graph::shortestPath(string start, string end){
 	// Checks if the destination already has an entry
 	double combinedDist = curDist + rD;
 	if(pathMap.find(r.dest) == pathMap.end()){
-	  //std::cout << "No entry found in pathMap" << std::endl;
 	  Dijkstry newEnt;
 	  // calculate destination's relative distance to start
 	  newEnt.dist = combinedDist;
@@ -117,13 +115,11 @@ vector<string> Graph::shortestPath(string start, string end){
 	  // add entry to map
 	  pathMap[r.dest] = newEnt;
 	} else{
-	  //std::cout << "Entry already present" << std::endl;
 	  // if there's already an entry, check if the current total distance is
 	  // smaller than the entry's distance
 	  double maybeShorter = combinedDist;
 	  if(maybeShorter < pathMap.at(r.dest).dist){
 	    // If that's the case, update the entry
-	    //std::cout << "updating entry" << std::endl;
 	    pathMap[r.dest].dist = maybeShorter;
 	    pathMap[r.dest].prev = currentNode;
 	  }
@@ -137,7 +133,6 @@ vector<string> Graph::shortestPath(string start, string end){
 
     traversed.insert(currentNode->data.name);
     if(shortestRoute != NULL){
-      //std::cout << "next closest node: " << shortestRoute->data.name << std::endl;
       shortestHelper(shortestRoute);
     }
   };
