@@ -17,12 +17,26 @@ class Graph{
     Airport data;
     std::vector<Route> edges;
   };
+  // Give better name
+  struct Dijkstry{
+    double dist;
+    Node* prev;
+  };
 
 
  private:
 
   /* Hashmap storing Node pointers, accessible using airport IATA IDs */
   std::map<std::string, Node*> airports;
+
+
+  /**
+   *@brief returns the distance (km) between two airports in a route
+   *       Sourced from https://stackoverflow.com/a/21623206 (annotate?)
+   *
+   *@param route the route in question
+   */
+  double routeDist(Route route);
 
  public:
 
@@ -63,15 +77,26 @@ class Graph{
   /**
    *@brief adds a Route to the graph
    *
-   *@param input the Route to add
+   *@param input the Route(s) to add
    */
   void addRoute(Route input);
   void addRoute(std::vector<std::string> input);
 
   /**
+   *@brief returns the shortest path between two airports
+   *
+   * ex: if the path is A -> B -> C -> D, the function will return a
+   * vector: < "D", "C", "B" >
+   *
+   *@param start the start airport
+   *@param end the destination airport
+   */
+  std::vector<std::string> shortestPath(std::string start, std::string end);
+
+  /**
    *@brief returns a pointer to the node of the input
-   * 
+   *
    *@param airport The standard abbreviated name of the airport
-  */
+   */
   Node* getAirport(std::string name);
 };

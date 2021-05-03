@@ -21,5 +21,6 @@ Week of 4/19/21
 
 
 Week of 4/26/21
-1. Finished Djiskstras algorithm
+1. Finishing Djiskstras algorithm
 2. Involved getting a BFS implemented
+3. Also implementing tests to make sure everything works
