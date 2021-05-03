@@ -66,7 +66,6 @@ TEST_CASE("simple Dijk", "[weight=4][part=2][value=0]"){
 				Route("C", "D"), Route("D", "C")
   };
   std::vector<Airport> airports = {one, two, three, four};
-  //std::cout << "Am I printing?" << std::endl;
   Graph graphOne(airports, routes);
 
 
