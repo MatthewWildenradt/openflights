@@ -13,4 +13,13 @@ Week of 4/12/21
 4. Further cleaned up directory structure
 
 Week of 4/19/21
+1. CSV reader should be compatable with EWS
+2. Airport class and Route classes are complete to store edges and vertices
+3. ./main and ./test execute successfully
+4. Graph class is fully implemented with all necessary functionalities
+5. Beginnings of a pathfinder class were added for when we 
 
+
+Week of 4/26/21
+1. Finished Djiskstras algorithm
+2. Involved getting a BFS implemented

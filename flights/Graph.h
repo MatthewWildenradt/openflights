@@ -90,4 +90,10 @@ class Graph{
    */
   std::vector<std::string> shortestPath(std::string start, std::string end);
 
+
+   *@brief returns a pointer to the node of the input
+   *
+   *@param airport The standard abbreviated name of the airport
+  */
+  Node* getAirport(std::string name);
 };

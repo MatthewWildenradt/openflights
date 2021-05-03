@@ -68,6 +68,7 @@ void Graph::addRoute(vector<string> input){
   crntNode->edges.push_back(addThis);
 }
 
+
 // Returns KM
 double Graph::routeDist(Route route){
 
@@ -166,4 +167,7 @@ vector<string> Graph::shortestPath(string start, string end){
 
 
 
+
+Node* Graph::getAirport(std::string name) {
+    return Node();
 }
