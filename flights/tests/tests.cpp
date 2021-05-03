@@ -10,20 +10,6 @@ TEST_CASE("Example", "[weight=0][part=1][part=1a]") {
   REQUIRE( 1==1 );
   }*/
 
-std::vector<Route> connectedAirports(std::vector<std::string> routeNames){
-  std::vector<Route> output;
-  while(routeNames.size() > 1){
-    int lastIdx = routeNames.size()-1;
-    for(size_t i = 0; i < routeNames.size()-2; i++){
-      output.push_back(Route(routeNames.at(i), routeNames.at(lastIdx)));
-      output.push_back(Route(routeNames.at(lastIdx), routeNames.at(i)));
-    }
-    routeNames.pop_back();
-  }
-  return output;
-}
-
-
 /*
 TEST_CASE("Graph_Constructor_1" "[weight=4][part=2][set=0]") {
   // Using first 3 airports

@@ -160,9 +160,4 @@ vector<string> Graph::shortestPath(string start, string end){
 
   return backwardPath;
 
-
-
-
-Node* Graph::getAirport(std::string name) {
-    return Node();
 }

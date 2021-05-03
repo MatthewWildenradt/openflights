@@ -85,15 +85,18 @@ class Graph{
   /**
    *@brief returns the shortest path between two airports
    *
+   * ex: if the path is A -> B -> C -> D, the function will return a
+   * vector: < "D", "C", "B" >
+   *
    *@param start the start airport
    *@param end the destination airport
    */
   std::vector<std::string> shortestPath(std::string start, std::string end);
 
-
+  /**
    *@brief returns a pointer to the node of the input
    *
    *@param airport The standard abbreviated name of the airport
-  */
+   */
   Node* getAirport(std::string name);
 };
