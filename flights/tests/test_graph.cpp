@@ -29,7 +29,7 @@ vector<Route> makeSimpleRoutes() {
 }
 
 
-TEST_CASE("Constructors") {
+TEST_CASE("Constructors", "[Graph]") {
   vector<Airport> inputA = makeSimpleAirports();
   vector<Route> inputR = makeSimpleRoutes();
   Graph simpleGraph(inputA, inputR);
@@ -38,7 +38,7 @@ TEST_CASE("Constructors") {
 
 }
 
-TEST_CASE("Add Route") {
+TEST_CASE("Add_Route", "[Graph]") {
   Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
   simpleGraph.addRoute(Route("THR","ONE"));
   REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
@@ -46,7 +46,7 @@ TEST_CASE("Add Route") {
 
 }
 
-TEST_CASE("Add Airport") {
+TEST_CASE("Add_Airport", "[Graph]") {
   Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
   simpleGraph.addAirport(Airport("FOU", 44, 44));
   REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
@@ -55,9 +55,15 @@ TEST_CASE("Add Airport") {
 
 }
 
-TEST_CASE("Get Airport") {
+TEST_CASE("Get_Airport", "[Graph]") {
   Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
   REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
 
+
+}
+
+TEST_CASE("Get_Airport_Invalid", "[Graph]"){
+  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+  REQUIRE((simpleGraph.getAirport("AAAH") == Airport("N/A", 0, 0)));
 
 }

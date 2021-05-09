@@ -108,17 +108,27 @@ TEST_CASE("dijk_overflow", "[Dijk]"){
 
 TEST_CASE("dijk_unclear", "[Dijk]"){
   std::vector<Airport> airports = {Airport("A", 0, 0), Airport("B", 3, 3), Airport("C" , 2, 2),
-				   Airport("D", 1, 1), Airport("E", 3000,3000),
-				   Airport("F", 500, 500), Airport("G", 50, 50)};
+				   Airport("D", 1, 1), Airport("E", 20,20),
+				   Airport("F", 15, 15), Airport("G", 5, 5)};
 
   std::vector<Route> routes = {Route("A","B"), Route("B","A"), Route("A","C"), Route("C","A"),
-			       Route("C","G"), Route("G","C"), Route("D","G"), Route("G","D"),
-			       Route("D","F"), Route("F","D"), Route("D","E"), Route("E","D")};
+			       Route("A","D"), Route("D","A"), Route("C","G"), Route("G","C"),
+			       Route("D","G"), Route("G","D"), Route("D","F"), Route("F","D"),
+			       Route("D","E"), Route("E","D")};
 
 
   Graph myGraph(airports,routes);
   std::vector<std::string> outputOne = myGraph.shortestPath("A","G");
+  // Note: A -> D -> G is of an equal length to A -> C -> G
+  REQUIRE(vectToString(outputOne) == "< G D >");
 
-  REQUIRE(vectToString(outputOne) == "< G C >");
+  std::cout << "Added airport H" << std::endl;
+  myGraph.addAirport(Airport("H", 17, 17));
+  myGraph.addRoute(Route("F","H"));
+  myGraph.addRoute(Route("H","F"));
+  std::cout << "Added Routes for H" << std::endl;
+
+  std::vector<std::string> outputTwo = myGraph.shortestPath("A", "H");
+  REQUIRE(vectToString(outputTwo) == "< H F D >");
 
 }

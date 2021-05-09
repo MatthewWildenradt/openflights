@@ -2,6 +2,7 @@
 #include <cmath>
 #include <limits>
 #include <set>
+#include <unordered_set>
 #include <functional>
 #include <iostream>
 #include <queue>
@@ -132,8 +133,22 @@ double Graph::routeDist(Route route){
 
 
 vector<string> Graph::shortestPath(string start, string end){
+  auto printMap = [](map<string, Dijkstry> &input){
+    auto it = input.begin();
+    std::cout << "key  | km-from-start | prev node " << std::endl;
+    while(it != input.end()){
+      std::cout << it->first << " | " << it->second.dist << "km | ";
+      if(it->second.prev == NULL){
+	std::cout << "NULL"<< std::endl;
+      } else{
+	std::cout << it->second.prev->data.name << std::endl;
+      }
+      it++;
+    }
+  };
   // This set will keep track of the node's we've traversed
-  std::set<string> traversed;
+  // switched to an unordered set for performance
+  std::unordered_set<string> traversed;
   //Make a dictionary with each node that'll be responsible for keeping track of:
   // shortest distance from start airport, previous node
   map<string, Dijkstry> pathMap;
@@ -153,8 +168,10 @@ vector<string> Graph::shortestPath(string start, string end){
 
   //std::cout << "Starting while loop" << std::endl;
   while(not q.empty()){
+
     // setting inital conditions per iteration
     Node* shortestRoute = NULL;
+    Route shortestRouteRoute = Route("N/A", "N/A");
     // setting the smallest distance between current node and a route to be the max
     // double value
     double sRDist = std::numeric_limits<double>::max();
@@ -162,44 +179,62 @@ vector<string> Graph::shortestPath(string start, string end){
     Node* currentNode = q.front();
     q.pop();
     // currentNode's distance from start
+    //std::cout << "Searching for: " << currentNode->data.name << std::endl;
     double curDist = pathMap.at(currentNode->data.name).dist;
-    for(Route r : currentNode->edges){
-      //std::cout << "current node: " << currentNode->data.name << std::endl;
-      // If we've traversed this endpoint, don't mess wit hit
-      if(traversed.find(r.dest) == traversed.end()){
-	double rD = routeDist(r);
-	double combinedDist = curDist + rD;
-	if(pathMap.find(r.dest) == pathMap.end()){
-	  Dijkstry newEnt;
-	  // calculate destination's relative distance to start
-	  newEnt.dist = combinedDist;
-	  newEnt.prev = currentNode;
-	  // add entry to map
-	  pathMap[r.dest] = newEnt;
-	} else{
-	  // if there's already an entry, check if the current total distance is
-	  // smaller than the entry's distance
-	  double maybeShorter = combinedDist;
-	  if(maybeShorter < pathMap.at(r.dest).dist){
-	    // if that's the case, update the entry
-	    pathMap[r.dest].dist = maybeShorter;
-	    pathMap[r.dest].prev = currentNode;
+    //std::cout << "curDist established" << std::endl;
+    if(traversed.find(currentNode->data.name) == traversed.end()){
+      for(Route r : currentNode->edges){
+	//std::cout << "In route loop" << std::endl;
+	//std::cout << "current node: " << currentNode->data.name << std::endl;
+	// If we've traversed this endpoint, don't mess wit hit
+	if(traversed.find(r.dest) == traversed.end()){
+	  //std::cout << "Not traversed" << std::endl;
+	  //printMap(pathMap);
+	  double rD = routeDist(r);
+	  double combinedDist = curDist + rD;
+	  if(pathMap.find(r.dest) == pathMap.end()){
+	    Dijkstry newEnt;
+	    // calculate destination's relative distance to start
+	    newEnt.dist = combinedDist;
+	    newEnt.prev = currentNode;
+	    // add entry to map
+	    pathMap[r.dest] = newEnt;
+	  } else{
+	    // if there's already an entry, check if the current total distance is
+	    // smaller than the entry's distance
+	    double maybeShorter = combinedDist;
+	    if(maybeShorter < pathMap.at(r.dest).dist){
+	      // if that's the case, update the entry
+	      pathMap[r.dest].dist = maybeShorter;
+	      pathMap[r.dest].prev = currentNode;
+	    }
+	  }
+	  // if the current distance is the shortest distance between a route and a current node, set it as the
+	  // current best
+	  if(rD < sRDist){
+	    shortestRoute = airports.at(r.dest);
+	    shortestRouteRoute = r;
+	    sRDist = rD;
 	  }
 	}
-	// if the current distance is the shortest distance between a route and a current node, set it as the
-	// current best
-	if(rD < sRDist){
-	  shortestRoute = airports.at(r.dest);
-	  sRDist = rD;
+      }
+      // Adds the current node to the list of traversed nodes
+      traversed.insert(currentNode->data.name);
+
+      if(shortestRoute != NULL){
+	// adds the shortest route forward to the queue, such that we'll traverse it next
+	q.push(shortestRoute);
+
+      }
+
+      for(Route r : currentNode->edges){
+	if(traversed.find(r.dest) == traversed.end()){
+	  //std::cout << "Adding " << r.dest << "to queue" << std::endl;
+	  q.push(airports.at(r.dest));
 	}
       }
     }
-    // Adds the current node to the list of traversed nodes
-    traversed.insert(currentNode->data.name);
-    if(shortestRoute != NULL){
-      // adds the shortest route forward to the queue, such that we'll traverse it next
-      q.push(shortestRoute);
-    }
+
   }
 
   // begin backtracking to find the shortest path
@@ -207,6 +242,7 @@ vector<string> Graph::shortestPath(string start, string end){
   string currentAirport = end;
   while(currentAirport != start){
     backwardPath.push_back(currentAirport);
+    std::cout << "Getting " << currentAirport << "\'s previous airport" << std::endl;
     currentAirport = pathMap.at(currentAirport).prev->data.name;
   }
   // NOTE: This returns a "path" starting from the destination, that doesn't include the starting airport
