@@ -75,13 +75,13 @@ void Graph::addRoute(Route input){
   if(start == airports.end()){
 
     if(end != airports.end()){
-      std::cout << "WARNING: Route not added. Start airport " << addThis.src << " not in graph." << std::endl;
+      std::cout << "WARNING: Route not added. Start airport " << input.src << " not in graph." << std::endl;
     } else{
-      std::cout << "WARNING: Route not added. Start airport " << addThis.src << " and destination airport " << addThis.dest << " are not in the graph." << std::endl;
+      std::cout << "WARNING: Route not added. Start airport " << input.src << " and destination airport " << input.dest << " are not in the graph." << std::endl;
     }
 
   } else if(end == airports.end()){
-    std::cout << "WARNING: Route not added. Destination airport " << addThis.dest << " not in graph." << std::endl;
+    std::cout << "WARNING: Route not added. Destination airport " << input.dest << " not in graph." << std::endl;
 
   } else{
     airports.at(input.src)->edges.push_back(input);
@@ -194,10 +194,10 @@ vector<string> Graph::shortestPath(string start, string end){
 	}
       }
     }
-
+    // Adds the current node to the list of traversed nodes
     traversed.insert(currentNode->data.name);
     if(shortestRoute != NULL){
-      //std::cout << shortestRoute->data.name << std::endl;
+      // adds the shortest route forward to the queue, such that we'll traverse it next
       q.push(shortestRoute);
     }
   }
@@ -209,21 +209,27 @@ vector<string> Graph::shortestPath(string start, string end){
     backwardPath.push_back(currentAirport);
     currentAirport = pathMap.at(currentAirport).prev->data.name;
   }
-
+  // NOTE: This returns a "path" starting from the destination, that doesn't include the starting airport
   return backwardPath;
 }
 
 Airport Graph::getAirport(string name){
-  try{
-    return airports.at(name)->data;
-  } catch(int e){
+  // Searches for airport
+  auto it = airports.find(name);
+  if(it == airports.end()){
+    // If the airport isn't found, return a "sentinel" airport
+    // and print an error message
     std::cout << "Airport not found" << std::endl;
     return Airport("N/A", 0, 0);
+  } else{
+    // If it is found, return the airport.
+    return it->second->data;
   }
+
 }
 
 
-// This version uses DFS, current version uses BFS(?)
+// Old recursive version.
 /*
 vector<string> Graph::shortestPath(string start, string end){
 
