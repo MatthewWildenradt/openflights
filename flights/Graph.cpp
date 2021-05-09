@@ -70,7 +70,23 @@ void Graph::addAirport(vector<string> input){
 
 // TODO! ignore if duplicate
 void Graph::addRoute(Route input){
-  airports.at(input.src)->edges.push_back(input);
+  auto start = airports.find(input.src);
+  auto end = airports.find(input.dest);
+  if(start == airports.end()){
+
+    if(end != airports.end()){
+      std::cout << "WARNING: Route not added. Start airport " << addThis.src << " not in graph." << std::endl;
+    } else{
+      std::cout << "WARNING: Route not added. Start airport " << addThis.src << " and destination airport " << addThis.dest << " are not in the graph." << std::endl;
+    }
+
+  } else if(end == airports.end()){
+    std::cout << "WARNING: Route not added. Destination airport " << addThis.dest << " not in graph." << std::endl;
+
+  } else{
+    airports.at(input.src)->edges.push_back(input);
+  }
+
 }
 
 void Graph::addRoute(vector<string> input){
