@@ -23,7 +23,7 @@ class Graph{
    * Keeps track of the current distance
    * Keeps track of where it came from
   */
-  struct Dijkstry{ 
+  struct Dijkstry{
     double dist; //the distance of this edge
     Node* prev; //the node it came from
   };
@@ -99,9 +99,9 @@ class Graph{
   std::vector<std::string> shortestPath(std::string start, std::string end); //finds shortest path between two airports
 
   /**
-   *@brief returns a pointer to the node of the input
+   *@brief returns an airport
    *
    *@param airport The standard abbreviated name of the airport
    */
-  Node* getAirport(std::string name); //gives you a pointer to the node of a named airport
+  Airport getAirport(std::string name); //gives you a pointer to the node of a named airport
 };

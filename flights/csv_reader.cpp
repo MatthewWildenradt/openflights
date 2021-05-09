@@ -16,6 +16,12 @@ CSVReader::~CSVReader() {
     file_.close();
 }
 
+bool CSVReader::eof()
+{
+  return file_.eof();
+}
+
+
 std::vector<std::string> CSVReader::nextLine() {
     std::vector<std::string> row;
 

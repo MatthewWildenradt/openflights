@@ -23,6 +23,13 @@ class CSVReader {
      */
     std::vector<std::string> nextLine();
 
+    /**
+     * @brief Returns whether or not we're at the end of the file
+     *
+     * @return boolean
+     */
+    bool eof();
+
   private:
     std::string path_;
 
