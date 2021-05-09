@@ -86,21 +86,21 @@ TEST_CASE("dijk_overflow", "[Dijk]"){
     airports.push_back(AirportF.nextLine());
   }
 
-  std::cout << "Airports loaded" << std::endl;
+  //std::cout << "Airports loaded" << std::endl;
   airports.pop_back();
 
   while(not RouteF.eof()){
     routes.push_back(RouteF.nextLine());
   }
 
-  std::cout << "Routes loaded" << std::endl;
+  //std::cout << "Routes loaded" << std::endl;
   routes.pop_back();
 
   Graph bGraph(airports, routes);
 
-  std::cout << "Graph created" << std::endl;
+  //std::cout << "Graph created" << std::endl;
   std::vector<std::string> outputOne = bGraph.shortestPath("HND", "FUK");
-  std::cout << "shortest path found" << std::endl;
+  //std::cout << "shortest path found" << std::endl;
   REQUIRE( vectToString(outputOne) == "< FUK >");
 
 
@@ -122,11 +122,11 @@ TEST_CASE("dijk_unclear", "[Dijk]"){
   // Note: A -> D -> G is of an equal length to A -> C -> G
   REQUIRE(vectToString(outputOne) == "< G D >");
 
-  std::cout << "Added airport H" << std::endl;
+  //std::cout << "Added airport H" << std::endl;
   myGraph.addAirport(Airport("H", 17, 17));
   myGraph.addRoute(Route("F","H"));
   myGraph.addRoute(Route("H","F"));
-  std::cout << "Added Routes for H" << std::endl;
+  //std::cout << "Added Routes for H" << std::endl;
 
   std::vector<std::string> outputTwo = myGraph.shortestPath("A", "H");
   REQUIRE(vectToString(outputTwo) == "< H F D >");

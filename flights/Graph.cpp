@@ -242,7 +242,7 @@ vector<string> Graph::shortestPath(string start, string end){
   string currentAirport = end;
   while(currentAirport != start){
     backwardPath.push_back(currentAirport);
-    std::cout << "Getting " << currentAirport << "\'s previous airport" << std::endl;
+    //std::cout << "Getting " << currentAirport << "\'s previous airport" << std::endl;
     currentAirport = pathMap.at(currentAirport).prev->data.name;
   }
   // NOTE: This returns a "path" starting from the destination, that doesn't include the starting airport
@@ -255,7 +255,7 @@ Airport Graph::getAirport(string name){
   if(it == airports.end()){
     // If the airport isn't found, return a "sentinel" airport
     // and print an error message
-    std::cout << "Airport not found" << std::endl;
+    std::cout << name << " not found" << std::endl;
     return Airport("N/A", 0, 0);
   } else{
     // If it is found, return the airport.
