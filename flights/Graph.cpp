@@ -6,6 +6,9 @@
 #include <functional>
 #include <iostream>
 #include <queue>
+#include <functional>
+#include <stack>
+#include <list>
 
 using std::string;
 using std::vector;
@@ -51,6 +54,7 @@ void Graph::addAirport(Airport input){
   Node* airportNode = new Node();
   airportNode->data = input;
   airports.insert(std::pair<string, Node*>(input.name, airportNode));
+  vertexCount++;
 }
 
 void Graph::addAirport(vector<string> input){
@@ -66,6 +70,7 @@ void Graph::addAirport(vector<string> input){
   Node* airportNode = new Node();
   airportNode->data = addThis;
   airports.insert(std::pair<string, Node*>(addThis.name, airportNode));
+  vertexCount++;
 }
 
 
@@ -86,8 +91,8 @@ void Graph::addRoute(Route input){
 
   } else{
     airports.at(input.src)->edges.push_back(input);
+    edgeCount++;
   }
-
 }
 
 void Graph::addRoute(vector<string> input){
@@ -112,6 +117,7 @@ void Graph::addRoute(vector<string> input){
   } else{
     Node* crntNode = airports.at(addThis.src);
     crntNode->edges.push_back(addThis);
+    edgeCount++;
   }
 }
 
@@ -345,3 +351,93 @@ vector<string> Graph::shortestPath(string start, string end){
 
 }
 */
+
+
+std::pair<double, double> Graph::betweennessCentrality(std::string startingAirport, std::string endingAirport) {
+    std::map<std::string, double> betweenness;
+
+    std::map<Route*, double> edgeBetweenness;
+
+    typedef std::pair<double, std::string> KeyValuePair;
+
+    std::priority_queue<KeyValuePair, std::vector<KeyValuePair>, std::greater<KeyValuePair>> Q;
+    std::stack<std::string> S;
+
+    std::map<std::string, double> dist;
+    std::map<std::string, double> sp;
+    std::map<std::string, double> delta;
+    std::map<std::string, bool> isInStack;
+    std::map<std::string, std::list<Route*>> Pred;
+
+    for (auto it = airports.begin(); it != airports.end(); it++) {
+        for (auto i = airports.begin(); i != airports.end(); i++) {
+            Pred[i->first].clear();
+            dist[i->first] = std::numeric_limits<double>::max();
+            sp[i->first] = 0;
+            isInStack[i->first] = false;
+        }
+        dist[it->first] = 0;
+        sp[it->first] = 1;
+        Q.push(std::make_pair(dist[it->first], it->first));
+
+        while(!Q.empty()) {
+          std::string v = Q.top().second;
+          Q.pop();
+
+          if(!isInStack[v]) {
+            isInStack[v] = true;
+            S.push(v);
+
+            std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(v);
+            for(auto& route : adjRoutes) {
+              double distance = routeDist(route);
+
+              // @TODO Maybe this might be swapped with the source? Check back after adjacent routes are implemented
+              std::string w = route.dest;
+
+              if(dist[w] > dist[v] + distance) {
+                dist[w] = dist[v] + distance;
+                Q.push(std::make_pair(dist[w], w));
+                sp[w] = 0;
+                Pred[w].clear();
+              }
+
+              // Way to check floating point numbers equality ignoring rounding errors
+              if(std::abs(dist[w] - (dist[v] + distance)) < 0.000000001) {
+                sp[w] = sp[w] + sp[v];
+                Pred[w].push_back(&route);
+              }
+            }
+          }
+        }
+    
+
+    double c = 0;
+
+    while(S.size() != 0) {
+      std::string airport_id = S.top();
+      S.pop();
+
+      for(auto route : Pred[airport_id]) {
+        std::string src = route->src;
+
+        c = (sp[src] / sp[airport_id] * (1 + delta[airport_id]));
+
+        edgeBetweenness[route] += c;
+        delta[src] += c;
+      }
+
+      if(airport_id.compare(it->first) != 0) {
+        betweenness[airport_id] += delta[airport_id];
+      }
+    }
+
+  }
+  // return std::make_pair(betweenness, edgeBetweenness);
+  // Calculates the betweenness statistic, now we need to use it
+  return std::make_pair(0,0);
+}
+
+std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
+  return airports[airport_id]->edges;
+}

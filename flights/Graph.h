@@ -34,6 +34,8 @@ class Graph{
   /* Hashmap storing Node pointers, accessible using airport IATA IDs */
   std::map<std::string, Node*> airports;  //this allows us to easily see which nodes connect which edges
 
+  int edgeCount;
+  int vertexCount;
 
   /**
    *@brief returns the distance (km) between two airports in a route
@@ -104,4 +106,9 @@ class Graph{
    *@param airport The standard abbreviated name of the airport
    */
   Airport getAirport(std::string name); //gives you a pointer to the node of a named airport
+
+  std::pair<double, double> betweennessCentrality(std::string startingAirport, std::string endingAirport);
+
+  std::vector<Route> getRoutesToAdjacentAirports(std::string airport_id);
+
 };
