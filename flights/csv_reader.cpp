@@ -16,8 +16,19 @@ CSVReader::~CSVReader() { //destructor for the reader
     file_.close(); //just need to make sure the file is closed
 }
 
+<<<<<<< HEAD
 std::vector<std::string> CSVReader::nextLine() { //nextline function, goes to the next distinct item in the file
     std::vector<std::string> row; //have a vector of strings called row
+=======
+bool CSVReader::eof()
+{
+  return file_.eof();
+}
+
+
+std::vector<std::string> CSVReader::nextLine() {
+    std::vector<std::string> row;
+>>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474
 
     std::string current; //have a string called current
     std::getline(file_, current); //we get the line and put it into current
@@ -35,5 +46,10 @@ std::vector<std::string> CSVReader::nextLine() { //nextline function, goes to th
         row.push_back(cell); //then put the cell into that row vector
     }
 
+<<<<<<< HEAD
     return row; //then return the row as a nice, easy to deal with vector
 }
+=======
+    return row;
+}
+>>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474

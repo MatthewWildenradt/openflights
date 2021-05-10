@@ -23,8 +23,23 @@ class CSVReader { //the class for the CSV reader
      */
     std::vector<std::string> nextLine(); //nextline function, goes to next distinct item in file
 
+<<<<<<< HEAD
   private: //the private members
     std::string path_; //helps us deal with 
 
     std::fstream file_; //helps us deal with reading the file
 };
+=======
+    /**
+     * @brief Returns whether or not we're at the end of the file
+     *
+     * @return boolean
+     */
+    bool eof();
+
+  private:
+    std::string path_;
+
+    std::fstream file_;
+};
+>>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474

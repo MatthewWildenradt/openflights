@@ -1,9 +1,12 @@
+
 #include "../cs225/catch/catch.hpp"
-#include "../Graph.cpp"
-#include "../csv_reader.cpp"
+#include "../Graph.h"
+#include "../csv_reader.h"
 #include <vector>
 
 using namespace std;
+
+
 
 vector<Airport> makeSimpleAirports() {
     vector<Airport> airports;
@@ -25,40 +28,42 @@ vector<Route> makeSimpleRoutes() {
     return routes;
 }
 
-TEST_CASE("Constructors") {
-    SECTION("Airport and Route constructor") {
-        Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-        REQUIRE(simpleGraph.getAirport("ONE")->data = Airport("ONE", 0, 0));
-        REQUIRE(simpleGraph.getAirport("THR")->data = Airport("THR", 13, 30));
-    }
+
+TEST_CASE("Constructors", "[Graph]") {
+  vector<Airport> inputA = makeSimpleAirports();
+  vector<Route> inputR = makeSimpleRoutes();
+  Graph simpleGraph(inputA, inputR);
+  REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
+  REQUIRE((simpleGraph.getAirport("THR") == Airport("THR", 13, 30)));
+
 }
 
-TEST_CASE("Add Route") {
-    SECTION("Add cycling route") {
-        Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-        simpleGraph.addRoute(Route("THR","ONE"));
-        REQUIRE(simpleGraph.getAirport("ONE")->data = Airport("ONE", 0, 0));
-        REQUIRE(simpleGraph.getAirport("THR")->data = Airport("THR", 13, 30));
-    }
+TEST_CASE("Add_Route", "[Graph]") {
+  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+  simpleGraph.addRoute(Route("THR","ONE"));
+  REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
+  REQUIRE((simpleGraph.getAirport("THR") == Airport("THR", 13, 30)));
+
 }
 
-TEST_CASE("Add Airport") {
-    SECTION("Add Airport") {
-        Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-        simpleGraph.addAirport(Airport("FOU", 44, 44));
-        REQUIRE(simpleGraph.getAirport("ONE")->data = Airport("ONE", 0, 0));
-        REQUIRE(simpleGraph.getAirport("THR")->data = Airport("THR", 13, 30));
-        REQUIRE(simpleGraph.getAirport("FOU")->data = Airport("FOU", 44, 44));
-    }
+TEST_CASE("Add_Airport", "[Graph]") {
+  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+  simpleGraph.addAirport(Airport("FOU", 44, 44));
+  REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
+  REQUIRE((simpleGraph.getAirport("THR") == Airport("THR", 13, 30)));
+  REQUIRE((simpleGraph.getAirport("FOU") == Airport("FOU", 44, 44)));
+
 }
 
-TEST_CASE("Get Airport") {
-    SECTION("Standard get airport") {
-        Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-        REQUIRE(simpleGraph.getAirport("ONE")->data = Airport("ONE", 0, 0));
-    }
+TEST_CASE("Get_Airport", "[Graph]") {
+  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+  REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
 
-    SECTION("Get Airport doesn't exist") {
-    
-    }
+
+}
+
+TEST_CASE("Get_Airport_Invalid", "[Graph]"){
+  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+  REQUIRE((simpleGraph.getAirport("AAAH") == Airport("N/A", 0, 0)));
+
 }

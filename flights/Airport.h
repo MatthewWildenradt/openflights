@@ -19,6 +19,19 @@ class Airport{ //airport objects
   Airport(std::string IATA, double laat, double loon); //need the ID, latitude, and longitude
 
 
+  bool operator==(const Airport & other){
+    if(name != other.name){
+      return false;
+    }
+    if(lat != other.lat){
+      return false;
+    }
+    if(lon != other.lon){
+      return false;
+    }
+    return true;
+  }
+
   std::string name; /* The Airport's IATA ID */
   double lat;       /* The Airport's latitude */
   double lon;       /* The Airport's longitude */

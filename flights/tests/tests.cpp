@@ -2,6 +2,7 @@
 #include "../Graph.h"
 #include "../Route.h"
 #include "../Airport.h"
+#include "../csv_reader.h"
 #include <sstream>
 #include <vector>
 #include <iostream>
@@ -35,7 +36,7 @@ std::string vectToString(std::vector<std::string> input){
 
 
 // calculating distances for examples using: https://www.nhc.noaa.gov/gccalc.shtml
-TEST_CASE("simple Dijk", "[weight=4][part=2][value=0]"){
+TEST_CASE("dijk_simple", "[Dijk][weight=4][part=2][value=0]"){
 
 
   Airport one("A", 0, 0);
@@ -70,5 +71,64 @@ TEST_CASE("simple Dijk", "[weight=4][part=2][value=0]"){
   //std::cout << "shortest Path found #2" << std::endl;
   REQUIRE( vectToString(outputTwo) == "< D B >");
   //std::cout << "Passed second" << std::endl;
+
+}
+
+TEST_CASE("dijk_overflow", "[Dijk]"){
+
+  CSVReader AirportF("../data/airports.dat");
+  CSVReader RouteF("../data/routes.dat");
+  std::vector<std::vector<std::string>> routes;
+  std::vector<std::vector<std::string>> airports;
+  std::vector<std::string> dummy;
+
+  while(not AirportF.eof()){
+    airports.push_back(AirportF.nextLine());
+  }
+
+  //std::cout << "Airports loaded" << std::endl;
+  airports.pop_back();
+
+  while(not RouteF.eof()){
+    routes.push_back(RouteF.nextLine());
+  }
+
+  //std::cout << "Routes loaded" << std::endl;
+  routes.pop_back();
+
+  Graph bGraph(airports, routes);
+
+  //std::cout << "Graph created" << std::endl;
+  std::vector<std::string> outputOne = bGraph.shortestPath("HND", "FUK");
+  //std::cout << "shortest path found" << std::endl;
+  REQUIRE( vectToString(outputOne) == "< FUK >");
+
+
+}
+
+TEST_CASE("dijk_unclear", "[Dijk]"){
+  std::vector<Airport> airports = {Airport("A", 0, 0), Airport("B", 3, 3), Airport("C" , 2, 2),
+				   Airport("D", 1, 1), Airport("E", 20,20),
+				   Airport("F", 15, 15), Airport("G", 5, 5)};
+
+  std::vector<Route> routes = {Route("A","B"), Route("B","A"), Route("A","C"), Route("C","A"),
+			       Route("A","D"), Route("D","A"), Route("C","G"), Route("G","C"),
+			       Route("D","G"), Route("G","D"), Route("D","F"), Route("F","D"),
+			       Route("D","E"), Route("E","D")};
+
+
+  Graph myGraph(airports,routes);
+  std::vector<std::string> outputOne = myGraph.shortestPath("A","G");
+  // Note: A -> D -> G is of an equal length to A -> C -> G
+  REQUIRE(vectToString(outputOne) == "< G D >");
+
+  //std::cout << "Added airport H" << std::endl;
+  myGraph.addAirport(Airport("H", 17, 17));
+  myGraph.addRoute(Route("F","H"));
+  myGraph.addRoute(Route("H","F"));
+  //std::cout << "Added Routes for H" << std::endl;
+
+  std::vector<std::string> outputTwo = myGraph.shortestPath("A", "H");
+  REQUIRE(vectToString(outputTwo) == "< H F D >");
 
 }
