@@ -1,14 +1,13 @@
-#include "Airport.h"
+#include "Airport.h" //need the airport header
 
-Airport::Airport(){
-  name = "";
-  lat = 0;
-  lon = 0;
+Airport::Airport(){ //just the default
+  name = ""; //name is empty
+  lat = 0; //placed at 0 latitude
+  lon = 0; //placed at 0 longitude
 }
 
-Airport::Airport(std::string IATA, double laat, double loon){
-
-  name = IATA;
-  lat = laat;
-  lon = loon;
+Airport::Airport(std::string IATA, double laat, double loon){ //takes the name and position
+  name = IATA; //name
+  lat = laat; //latitude
+  lon = loon; //longitude
 }

@@ -1,13 +1,13 @@
 #pragma once
-#include <string>
+#include <string> //need a string to deal with the name of the airport
 
-class Airport{
- public:
+class Airport{ //airport objects
+ public: //public members
 
   /**
    * Airport default constructor
    */
-  Airport();
+  Airport(); //typical default
 
   /**
    *@brief Constructs an Airport
@@ -16,7 +16,7 @@ class Airport{
    *@param laat the Airport's latitude
    *@param loon the Airport's longitude
    */
-  Airport(std::string IATA, double laat, double loon);
+  Airport(std::string IATA, double laat, double loon); //need the ID, latitude, and longitude
 
 
   std::string name; /* The Airport's IATA ID */
