@@ -24,3 +24,12 @@ Week of 4/26/21
 1. Finishing Djiskstras algorithm
 2. Involved getting a BFS implemented
 3. Also implementing tests to make sure everything works
+
+Week of 4/3/21
+1. Djikstra's is clear on edge cases and its efficiency is improved
+2. More comments were added to improve readability
+3. Outline for the final presentation was drafted
+4. Betweeness centrality mapping is almost complete, just need a useable output, heuristics are done though
+5. Test are further improved
+
+Week of 4/10/21
