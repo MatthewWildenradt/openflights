@@ -20,4 +20,4 @@
 5. To try out our shortest path aglorithm type:
 6. To try out our betweenness centrality mapping algorithm type:
 
-### 
+### Test Suite Information
