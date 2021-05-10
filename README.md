@@ -14,4 +14,10 @@
  
 ### Running the Program
 1. While in 'padhi3-miw3-jorteg38-wpark26', run './fetch_data.sh' in order to fetch the requird data sets
-2. Then navigate into 'flights
+2. Navigate into 'flights' using 'cd flights' so that you're in the flights directory specifically
+3. Type 'make flights' to compile the executables and 'make test' if you want to compile our tests too
+4. Type ./flights to run our main method and ./test to run our tests
+5. To try out our shortest path aglorithm type:
+6. To try out our betweenness centrality mapping algorithm type:
+
+### 
