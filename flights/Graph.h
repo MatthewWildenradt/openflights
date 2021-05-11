@@ -107,8 +107,10 @@ class Graph{
    */
   Airport getAirport(std::string name); //gives you a pointer to the node of a named airport
 
-  std::pair<double, double> betweennessCentrality(std::string startingAirport, std::string endingAirport);
+  std::map<std::string, double> calculateBetweennessCentrality(std::string startingAirport, std::string endingAirport);
 
   std::vector<Route> getRoutesToAdjacentAirports(std::string airport_id);
+
+  std::string getCentralAirport(std::string startingAirport, std::string endingAirport);
 
 };

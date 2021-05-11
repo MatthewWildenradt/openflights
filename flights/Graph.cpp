@@ -264,59 +264,56 @@ Airport Graph::getAirport(string name){
 
 }
 
-std::pair<double, double> Graph::betweennessCentrality(std::string startingAirport, std::string endingAirport) {
+std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string startingAirport, std::string endingAirport) {
     std::map<std::string, double> betweenness;
-
     std::map<Route*, double> edgeBetweenness;
 
-    typedef std::pair<double, std::string> KeyValuePair;
-
-    std::priority_queue<KeyValuePair, std::vector<KeyValuePair>, std::greater<KeyValuePair>> Q;
+    std::priority_queue<std::pair<double, std::string>, std::vector<std::pair<double, std::string>>, std::greater<std::pair<double, std::string>>> Q;
     std::stack<std::string> S;
 
-    std::map<std::string, double> dist;
+    std::map<std::string, double> distances;
     std::map<std::string, double> sp;
     std::map<std::string, double> delta;
     std::map<std::string, bool> isInStack;
-    std::map<std::string, std::list<Route*>> Pred;
+    std::map<std::string, std::list<Route*>> predecessor;
 
     for (auto it = airports.begin(); it != airports.end(); it++) {
         for (auto i = airports.begin(); i != airports.end(); i++) {
-            Pred[i->first].clear();
-            dist[i->first] = std::numeric_limits<double>::max();
+            predecessor[i->first].clear();
+            distances[i->first] = std::numeric_limits<double>::max();
             sp[i->first] = 0;
             isInStack[i->first] = false;
         }
-        dist[it->first] = 0;
+        distances[it->first] = 0;
         sp[it->first] = 1;
-        Q.push(std::make_pair(dist[it->first], it->first));
+        Q.push(std::make_pair(distances[it->first], it->first));
 
         while(!Q.empty()) {
-          std::string v = Q.top().second;
+          std::string currentNode = Q.top().second;
           Q.pop();
 
-          if(!isInStack[v]) {
-            isInStack[v] = true;
-            S.push(v);
+          if(!isInStack[currentNode]) {
+            isInStack[currentNode] = true;
+            S.push(currentNode);
 
             std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(v);
             for(auto& route : adjRoutes) {
-              double distance = routeDist(route);
+              double currentDistance = routeDist(route);
 
               // @TODO Maybe this might be swapped with the source? Check back after adjacent routes are implemented
-              std::string w = route.dest;
+              std::string destinationNode = route.dest;
 
-              if(dist[w] > dist[v] + distance) {
-                dist[w] = dist[v] + distance;
-                Q.push(std::make_pair(dist[w], w));
-                sp[w] = 0;
-                Pred[w].clear();
+              if(distances[destinationNode] > distances[currentNode] + currentDistance) {
+                distances[destinationNode] = distances[currentNode] + currentDistance;
+                Q.push(std::make_pair(distances[destinationNode], destinationNode));
+                sp[destinationNode] = 0;
+                predecessor[destinationNode].clear();
               }
 
               // Way to check floating point numbers equality ignoring rounding errors
-              if(std::abs(dist[w] - (dist[v] + distance)) < 0.000000001) {
-                sp[w] = sp[w] + sp[v];
-                Pred[w].push_back(&route);
+              if(std::abs(distances[destinationNode] - (distances[currentNode] + currentDistance)) < 0.000000001) {
+                sp[destinationNode] = sp[destinationNode] + sp[currentNode];
+                predecessor[destinationNode].push_back(&route);
               }
             }
           }
@@ -329,7 +326,7 @@ std::pair<double, double> Graph::betweennessCentrality(std::string startingAirpo
       std::string airport_id = S.top();
       S.pop();
 
-      for(auto route : Pred[airport_id]) {
+      for(auto route : predecessor[airport_id]) {
         std::string src = route->src;
 
         c = (sp[src] / sp[airport_id] * (1 + delta[airport_id]));
@@ -346,9 +343,24 @@ std::pair<double, double> Graph::betweennessCentrality(std::string startingAirpo
   }
   // return std::make_pair(betweenness, edgeBetweenness);
   // Calculates the betweenness statistic, now we need to use it
-  return std::make_pair(0,0);
+  return betweeness;
 }
 
 std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
   return airports[airport_id]->edges;
+}
+
+std::string Graph::getCentralAirport(std::string startingAirport, std::string endingAirport) {
+  std::map<std::string, double> betweenness = calculateBetweennessCentrality(startingAirport, endingAirport);
+  double largest = std::numeric_limits<double>::min();
+  std::string mostCentral = "";
+  
+  for (auto it = betweenness.begin(); it != betweenness.end(); it++) {
+    if(mostCentral.compare("") == 0 || it->second > largest) {
+      largest = it->second;
+      mostCentral = it->first;
+    }
+  }
+
+  return mostCentral;
 }
