@@ -132,6 +132,24 @@ TEST_CASE("dijk_unclear", "[Dijk]"){
   REQUIRE(vectToString(outputTwo) == "< H F D >");
 
 }
+TEST_CASE("dijk_invalid") {
+    Airport one("A", 0, 0);
+    Airport two("B", 1, 1);
+    Airport three("C", 2, 2);
+    Airport four("D", .75, .75);
+
+    std::stringstream testing;
+    std::vector<Route> routes = {Route("A", "B"), Route("B", "A"), Route("D", "C"),
+                                 Route("C", "D")};
+    std::vector<Airport> airports = {one, two, three, four};
+    Graph graphOne(airports, routes);
+
+    // Note: There are no paths from A to D
+    std::vector<std::string> outputOne = graphOne.shortestPath("A", "D");
+
+    REQUIRE(vectToString(outputOne) == "< >");
+}
+
 
 TEST_CASE("dijk_zero_weight"){
   std::vector<Airport> airports = {Airport("A", 0, 0), Airport("B", 1, 0), Airport("C", 0, 1), Airport("D", 1, 1),
