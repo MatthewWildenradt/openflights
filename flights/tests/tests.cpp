@@ -74,7 +74,7 @@ TEST_CASE("dijk_simple", "[Dijk][weight=4][part=2][value=0]"){
 
 }
 
-TEST_CASE("dijk_overflow", "[Dijk]"){
+TEST_CASE("dijk_slow", "[Dijk]"){
 
   CSVReader AirportF("../data/airports.dat");
   CSVReader RouteF("../data/routes.dat");
@@ -133,23 +133,40 @@ TEST_CASE("dijk_unclear", "[Dijk]"){
 
 }
 
-TEST_CASE("dijk_invalid") {
-  Airport one("A", 0, 0);
-  Airport two("B", 1, 1);
-  Airport three("C", 2, 2);
-  Airport four("D", .75, .75);
+TEST_CASE("dijk_zero_weight"){
+  std::vector<Airport> airports = {Airport("A", 0, 0), Airport("B", 1, 0), Airport("C", 0, 1), Airport("D", 1, 1),
+			  Airport("E", 1, 0), Airport("F", 1, 2), Airport("G", 1, 1)};
 
-  std::stringstream testing;
-  std::vector<Route> routes = {
-				Route("A" , "B"), Route("B", "A"),
-				Route("D" , "C") , Route("C", "D")
-  };
-  std::vector<Airport> airports = {one, two, three, four};
-  Graph graphOne(airports, routes);
+  std::vector<Route> routes = {Route("A", "B"), Route("B", "A"), Route("A", "D"), Route("D","A"), Route("A","C"),
+			       Route("C","A"), Route("B","F"), Route("F","B"), Route("C","E"), Route("E","C"),
+			       Route("F","G"), Route("G", "F"), Route("E","G"), Route("G", "E")};
 
-  // Note: There are no paths from A to D
-  std::vector<std::string>  outputOne = graphOne.shortestPath("A", "D");
+  Graph myGraph(airports, routes);
 
-  REQUIRE( vectToString(outputOne) == "< >");
+
+  // test node with zero weight edge
+  std::vector<std::string> outputOne = myGraph.shortestPath("A", "G");
+  REQUIRE(vectToString(outputOne) == "< G E C >");
+
+  // test other paths
+  std::vector<std::string> outputTwo = myGraph.shortestPath("A", "F");
+  REQUIRE(vectToString(outputTwo) == "< F B >");
+
+  std::vector<std::string> outputThree = myGraph.shortestPath("A", "E");
+  REQUIRE(vectToString(outputThree) == "< E C >");
+
+  std::vector<std::string> outputFour = myGraph.shortestPath("A", "C");
+  REQUIRE(vectToString(outputFour) == "< C >");
+
+  std::vector<std::string> outputFive = myGraph.shortestPath("A", "D");
+  REQUIRE(vectToString(outputFive) == "< D >");
+
+  std::vector<std::string> outputSix = myGraph.shortestPath("A", "B");
+  REQUIRE(vectToString(outputSix) == "< B >");
+
+  std::vector<std::string> outputX = myGraph.shortestPath("D", "G");
+  REQUIRE(vectToString(outputX) == "< G E C A >");
+
+
 
 }
