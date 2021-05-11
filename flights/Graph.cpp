@@ -296,8 +296,7 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
           if(!isInStack[currentNode]) {
             isInStack[currentNode] = true;
             S.push(currentNode);
-
-            std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(v);
+            std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(currentNode);
             for(auto& route : adjRoutes) {
               double currentDistance = routeDist(route);
 
@@ -344,7 +343,7 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
   }
   // return std::make_pair(betweenness, edgeBetweenness);
   // Calculates the betweenness statistic, now we need to use it
-  return betweeness;
+  return betweenness;
 }
 
 std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
