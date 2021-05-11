@@ -39,9 +39,9 @@ int main() {
         if (command == 1 || command == 2) {
 
             std::string firstAirport, secondAirport;
-            std::cout << "Enter the source airport:" << std::endl;
+            std::cout << "Enter the source airport:(IATA ID)" << std::endl;
             getline(std::cin, firstAirport);
-            std::cout << "Enter the desitnation airport:" << std::endl;
+            std::cout << "Enter the destination airport(IATA ID):" << std::endl;
             getline(std::cin, secondAirport);
 
             if (command == 1) {
