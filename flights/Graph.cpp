@@ -1,47 +1,29 @@
-<<<<<<< HEAD
 #include "Graph.h" //need the graph  header
 #include <cmath> //need math for our algorithms
 #include <limits> //need limits as well
 #include <set> //and sets
 #include <functional> //and functional
 #include <iostream> //need iostream for basic usability
+#include <stack>
+#include <list>
 
 using std::string; //need strings for location names
 using std::vector; //need vectors for collections of routes and airports
 using std::map; //need a map to access things based on their names
-
-Graph::Graph(){ //just your regular default consstructor
-=======
-#include "Graph.h"
-#include <cmath>
-#include <limits>
-#include <set>
-#include <unordered_set>
-#include <functional>
-#include <iostream>
-#include <queue>
-#include <functional>
-#include <stack>
-#include <list>
-
-using std::string;
-using std::vector;
-using std::map;
 using std::queue;
 
-Graph::Graph(){
->>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474
+Graph::Graph(){ //just your regular default consstructor
   // does nothing
 }
 
 Graph::Graph(vector<Airport> inputAirports, vector<Route> routes){ //make a graph using a vector of airports and a vector of routes
 
   for(Airport crnt : inputAirports){ //put all of the airports into the graph
-    addAirport(crnt); //as stated
+    addAirport(crnt);
   }
 
   for(Route crnt : routes){ //put all of the routes into the graph
-    addRoute(crnt); //as stated
+    addRoute(crnt);
   }
 }
 
@@ -49,19 +31,12 @@ Graph::Graph(vector<vector<string>> inputAirports, //same thing as above
 	     vector<vector<string>> routes){ //only using string vectors of names and not objects
 
   for(vector<string> line : inputAirports){ //put all airports in again
-    addAirport(line); //as stated
+    addAirport(line);
   }
 
-<<<<<<< HEAD
   for(vector<string> line : routes){ //put all routes in again
-    addRoute(line); //as stated
-=======
-
-  for(vector<string> line : routes){
     addRoute(line);
->>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474
   }
-
 }
 
 Graph::~Graph(){ //destructor
@@ -70,19 +45,6 @@ Graph::~Graph(){ //destructor
   }
 }
 
-<<<<<<< HEAD
-void Graph::addAirport(Airport input){ //airport adder
-  Node* airportNode = new Node(); //need to make a new node for each airport
-  airportNode->data = input; //need to set that airport to the input
-  airports.insert(std::pair<string, Node*>(input.name, airportNode)); //insert it with our given graph format
-}
-
-void Graph::addAirport(vector<string> input){ //same thing as above but a vector of strings
-  Airport addThis(input[4], std::stod(input[6]), std::stod(input[7])); //constructs a corresponding airport called add this
-  Node* airportNode = new Node(); //create a new node for our purposes
-  airportNode->data = addThis; //just put the object we create's info into that new node
-  airports.insert(std::pair<string, Node*>(addThis.name, airportNode)); //then insert it
-=======
 void Graph::addAirport(Airport input){
   Node* airportNode = new Node();
   airportNode->data = input;
@@ -104,21 +66,10 @@ void Graph::addAirport(vector<string> input){
   airportNode->data = addThis;
   airports.insert(std::pair<string, Node*>(addThis.name, airportNode));
   vertexCount++;
->>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474
 }
 
 
 // TODO! ignore if duplicate
-<<<<<<< HEAD
-void Graph::addRoute(Route input){ //route adder
-  airports.at(input.src)->edges.push_back(input); //only need to copy these edges into the existing edge vector
-}
-
-void Graph::addRoute(vector<string> input){ //route adder but with strings
-  Route addThis(input[2], input[4]); //make a route using the string vector format input (this makes sense given how the source file is formatted)
-  Node* crntNode = airports.at(addThis.src); //gets the pointer of the node we want
-  crntNode->edges.push_back(addThis); //use that pointer to add our edge to the graph
-=======
 void Graph::addRoute(Route input){
   auto start = airports.find(input.src);
   auto end = airports.find(input.dest);
@@ -163,7 +114,6 @@ void Graph::addRoute(vector<string> input){
     crntNode->edges.push_back(addThis);
     edgeCount++;
   }
->>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474
 }
 
 
@@ -182,11 +132,7 @@ double Graph::routeDist(Route route){ //gives the disance associated with a rout
 
 }
 
-<<<<<<< HEAD
 vector<string> Graph::shortestPath(string start, string end){ //shortest path algorithms that runs on Dijkstra's
-=======
-
-vector<string> Graph::shortestPath(string start, string end){
   auto printMap = [](map<string, Dijkstry> &input){
     auto it = input.begin();
     std::cout << "key  | km-from-start | prev node " << std::endl;
@@ -317,90 +263,6 @@ Airport Graph::getAirport(string name){
   }
 
 }
-
-
-// Old recursive version.
-/*
-vector<string> Graph::shortestPath(string start, string end){
->>>>>>> 9293556ec5f2fc437e335852cc20da24ff1ca474
-
-
-  std::set<string> traversed; //keep track of what we've traversed with a set
-  map<string, Dijkstry> pathMap; //use a map to keep track fo the path we've made
-
-
-  std::function<void(Node* currentNode)> shortestHelper; //make a helper function inside the shortest path algorithm
-
-  shortestHelper = [this, &shortestHelper, &pathMap, &traversed](Node* currentNode){ //outline of the paramters taken
-    Node* shortestRoute = NULL;
-
-    double sRDist = std::numeric_limits<double>::max();
-    // CurrentNode's distance from start
-    double curDist = pathMap.at(currentNode->data.name).dist;
-
-    for(Route r : currentNode->edges){
-      // If we've traversed this endpoint, don't mess with it
-      if(traversed.find(r.dest) == traversed.end()){
-	// calculate the endpoint's distance from current node
-	double rD = routeDist(r);
-	// Checks if the destination already has an entry
-	double combinedDist = curDist + rD;
-	if(pathMap.find(r.dest) == pathMap.end()){
-	  Dijkstry newEnt;
-	  // calculate destination's relative distance to start
-	  newEnt.dist = combinedDist;
-	  newEnt.prev = currentNode;
-	  // add entry to map
-	  pathMap[r.dest] = newEnt;
-	} else{
-	  // if there's already an entry, check if the current total distance is
-	  // smaller than the entry's distance
-	  double maybeShorter = combinedDist;
-	  if(maybeShorter < pathMap.at(r.dest).dist){
-	    // If that's the case, update the entry
-	    pathMap[r.dest].dist = maybeShorter;
-	    pathMap[r.dest].prev = currentNode;
-	  }
-	}
-	if(rD < sRDist){
-	  shortestRoute = airports.at(r.dest);
-	  sRDist = rD;
-	}
-      }
-    }
-
-    traversed.insert(currentNode->data.name);
-    if(shortestRoute != NULL){
-      shortestHelper(shortestRoute);
-    }
-
-
-  //Make a dictionary with each node that'll be responsible for keeping track of:
-  // shortest distance from start airport, previous node
-
-  Dijkstry initial;
-  initial.dist = 0;
-  initial.prev = NULL;
-
-  pathMap[start] = initial;
-
-  shortestHelper(airports[start]);
-
-
-  // Backtrack to find find the shortest path
-
-  vector<string> backwardPath;
-  string currentAirport = end;
-  while(currentAirport != start){
-    backwardPath.push_back(currentAirport);
-    currentAirport = pathMap.at(currentAirport).prev->data.name;
-  }
-
-  return backwardPath;
-
-}
-*/
-
 
 std::pair<double, double> Graph::betweennessCentrality(std::string startingAirport, std::string endingAirport) {
     std::map<std::string, double> betweenness;
