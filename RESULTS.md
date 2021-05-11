@@ -6,26 +6,45 @@
 (That is, below are the shortest paths from Chicago's O'Hare (ORD) airport to our given destinations of choice
 along with the most central airport to our selection of favorite airports.)
 
-Anish's Results
+# Anish's Results
+
 Destination Airport:
+
 Shortest Path from ORD:
+
 Favorite Airports:
+
 Most Central Airport:
 
-Matt's Results:
+
+# Matt's Results:
+
 Destination Airport:
+
 Shortest Path from ORD:
+
 Favorite Airports:
+
 Most Central Airport:
 
-Johan's Results
+
+# Johan's Results
+
 Destination Airport:
+
 Shortest Path from ORD:
+
 Favorite Airports:
+
 Most Central Airport:
 
-Wonjun's Results
+
+# Wonjun's Results
+
 Destination Airport:
+
 Shortest Path from ORD:
+
 Favorite Airports:
+
 Most Central Airport:
