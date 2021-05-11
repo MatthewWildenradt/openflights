@@ -21,7 +21,9 @@ Within the 'flights' folder there are 3 folders and 12 files while make up the b
 5. 'Route.h' and 'Route.cpp' comprise the route class, which will later be used to make edges in our graph
 6. 'Makefile' is simply there in order to alllow for easy compilation of flights (make flights) and tests (make test)
 7. 'csv_reader.h' and 'csv_reader.cpp' comprise the CSV reader class, which reads our retrieved CSV files
-8. There are also 'flights' and 'test' executables, which can be run using ./flights and ./test if compiling has occurred
+9. 'Graph.h' and 'Graph.cpp' are where the graph is made using routes and airports, and has shortest path and centrality functions
+8. 'main.cpp' is the file used for running the actual code, and to take inputs from the user and give outputs
+10. There are also 'flights' and 'test' executables, which can be run using ./flights and ./test if compiling has occurred
 
  
 ### Running the Program
