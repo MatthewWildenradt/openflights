@@ -30,6 +30,7 @@ class Graph{
 
 
  private: /*private member variables/fucntions*/
+  bool debug = false;
 
   /* Hashmap storing Node pointers, accessible using airport IATA IDs */
   std::map<std::string, Node*> airports;  //this allows us to easily see which nodes connect which edges
@@ -112,5 +113,9 @@ class Graph{
   std::vector<Route> getRoutesToAdjacentAirports(std::string airport_id);
 
   std::string getCentralAirport(std::string startingAirport, std::string endingAirport);
+
+  int getAirportCount() const;
+
+  int getRouteCount() const;
 
 };

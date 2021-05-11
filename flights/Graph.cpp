@@ -6,6 +6,8 @@
 #include <iostream> //need iostream for basic usability
 #include <stack>
 #include <list>
+#include <queue>
+#include <unordered_set>
 
 using std::string; //need strings for location names
 using std::vector; //need vectors for collections of routes and airports
@@ -53,13 +55,10 @@ void Graph::addAirport(Airport input){
 }
 
 void Graph::addAirport(vector<string> input){
-  //std::cout << "Inner values" << std::endl;
-  //int i = 0;
-  //for(string s : input){
-  //std::cout << i <<": " <<  s << std::endl;
-  //i++;
-  //}
   int inputLen = input.size();
+  if (inputLen == 0) {
+    return;
+  }
 
   Airport addThis(input.at(inputLen-10), std::stod(input.at(inputLen-8)), std::stod(input.at(inputLen-7)));
   Node* airportNode = new Node();
@@ -71,49 +70,32 @@ void Graph::addAirport(vector<string> input){
 
 // TODO! ignore if duplicate
 void Graph::addRoute(Route input){
-  auto start = airports.find(input.src);
-  auto end = airports.find(input.dest);
-  if(start == airports.end()){
+  auto srcExists = airports.find(input.src) != airports.end();
+  auto destExists = airports.find(input.dest) != airports.end();
 
-    if(end != airports.end()){
-      std::cout << "WARNING: Route not added. Start airport " << input.src << " not in graph." << std::endl;
-    } else{
-      std::cout << "WARNING: Route not added. Start airport " << input.src << " and destination airport " << input.dest << " are not in the graph." << std::endl;
-    }
-
-  } else if(end == airports.end()){
-    std::cout << "WARNING: Route not added. Destination airport " << input.dest << " not in graph." << std::endl;
-
-  } else{
+  if(srcExists && destExists) {
     airports.at(input.src)->edges.push_back(input);
     edgeCount++;
+  } else if (debug) {
+    if(srcExists){
+      if(destExists){
+        std::cout << "WARNING: Route not added. Start airport " << input.src << " not in graph." << std::endl;
+      } else {
+        std::cout << "WARNING: Route not added. Start airport " << input.src << " and destination airport " << input.dest << " are not in the graph." << std::endl;
+      }
+    } else if(!destExists){
+      std::cout << "WARNING: Route not added. Destination airport " << input.dest << " not in graph." << std::endl;
+    } 
   }
 }
 
 void Graph::addRoute(vector<string> input){
-  //std::cout << "Inner values" << std::endl;
-  //int i = 0;
-  //for(string s : input){
-  //  std::cout << i <<": " <<  s << std::endl;
-  //  i++;
-  //}
+  if(input.size() == 0) {
+    return;
+  }
 
   Route addThis(input[2], input[4]);
-  auto start = airports.find(addThis.src);
-  auto end = airports.find(addThis.dest);
-  if(start == airports.end()){
-    if(end != airports.end()){
-      std::cout << "WARNING: Route not added. Start airport " << addThis.src << " not in graph." << std::endl;
-    } else{
-      std::cout << "WARNING: Route not added. Start airport " << addThis.src << " and destination airport " << addThis.dest << " are not in the graph." << std::endl;
-    }
-  } else if(end == airports.end()){
-    std::cout << "WARNING: Route not added. Destination airport " << addThis.dest << " not in graph." << std::endl;
-  } else{
-    Node* crntNode = airports.at(addThis.src);
-    crntNode->edges.push_back(addThis);
-    edgeCount++;
-  }
+  this->addRoute(addThis);
 }
 
 
@@ -296,7 +278,7 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
             isInStack[currentNode] = true;
             S.push(currentNode);
 
-            std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(v);
+            std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(currentNode);
             for(auto& route : adjRoutes) {
               double currentDistance = routeDist(route);
 
@@ -343,7 +325,7 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
   }
   // return std::make_pair(betweenness, edgeBetweenness);
   // Calculates the betweenness statistic, now we need to use it
-  return betweeness;
+  return betweenness;
 }
 
 std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
@@ -363,4 +345,13 @@ std::string Graph::getCentralAirport(std::string startingAirport, std::string en
   }
 
   return mostCentral;
+}
+
+
+int Graph::getAirportCount() const {
+  return vertexCount;
+}
+
+int Graph::getRouteCount() const {
+  return edgeCount;
 }
