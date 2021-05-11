@@ -56,14 +56,14 @@ TEST_CASE("Add_Airport", "[Graph]") {
 }
 
 TEST_CASE("Get_Airport", "[Graph]") {
-  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-  REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
+    SECTION("Standard") {
+        Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+        REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
+    }
 
-
+    SECTION("Get_Invalid_Airport") {
+        Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+        REQUIRE((simpleGraph.getAirport("AAH") == Airport("N/A", 0, 0)));
+    }
 }
 
-TEST_CASE("Get_Airport_Invalid", "[Graph]"){
-  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-  REQUIRE((simpleGraph.getAirport("AAAH") == Airport("N/A", 0, 0)));
-
-}
