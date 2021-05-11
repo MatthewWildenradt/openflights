@@ -1,13 +1,13 @@
 #include "Graph.h" //need the graph  header
 #include <cmath> //need math for our algorithms
 #include <limits> //need limits as well
-#include <set> //and sets
+#include <unordered_set> //and sets
 #include <functional> //and functional
 #include <iostream> //need iostream for basic usability
 #include <stack>
+#include <queue>
 #include <list>
 #include <queue>
-#include <unordered_set>
 
 using std::string; //need strings for location names
 using std::vector; //need vectors for collections of routes and airports
@@ -277,7 +277,6 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
           if(!isInStack[currentNode]) {
             isInStack[currentNode] = true;
             S.push(currentNode);
-
             std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(currentNode);
             for(auto& route : adjRoutes) {
               double currentDistance = routeDist(route);
@@ -300,7 +299,7 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
             }
           }
         }
-    
+
 
     double c = 0;
 
@@ -336,7 +335,7 @@ std::string Graph::getCentralAirport(std::string startingAirport, std::string en
   std::map<std::string, double> betweenness = calculateBetweennessCentrality(startingAirport, endingAirport);
   double largest = std::numeric_limits<double>::min();
   std::string mostCentral = "";
-  
+
   for (auto it = betweenness.begin(); it != betweenness.end(); it++) {
     if(mostCentral.compare("") == 0 || it->second > largest) {
       largest = it->second;
