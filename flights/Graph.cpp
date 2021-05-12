@@ -312,27 +312,27 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
 
 
     double c = 0;
-    std::cout << "Stuff calculated." << std::endl;
+    //std::cout << "Stuff calculated." << std::endl;
     while(S.size() != 0) {
       std::string airport_id = S.top();
-      std::cout << "Getting top in stack" << std::endl;
+      //std::cout << "Getting top in stack" << std::endl;
       S.pop();
 
-      std::cout << "Iterating over predecessor's routes" << std::endl;
+      //std::cout << "Iterating over predecessor's routes" << std::endl;
       for(auto route : predecessor.at(airport_id)) {
         std::string src = route->src;
 	std::cout << "Current route: " << src << std::endl;
-	std::cout << "Calculating C" << std::endl;
+	//std::cout << "Calculating C" << std::endl;
         c = (sp[src] / sp[airport_id] * (1 + delta[airport_id]));
 
-	std::cout << "Adding to edgeBetweenness" << std::endl;
+	//std::cout << "Adding to edgeBetweenness" << std::endl;
         edgeBetweenness[route] += c;
-	std::cout << "Adding to delta" << std::endl;
+	//std::cout << "Adding to delta" << std::endl;
         delta[src] += c;
-	std::cout << "Added to delta" << std::endl;
+	//std::cout << "Added to delta" << std::endl;
       }
 
-      std::cout << "Comparing airports" << std::endl;
+      //std::cout << "Comparing airports" << std::endl;
       if(airport_id.compare(it->first) != 0) {
         betweenness[airport_id] += delta[airport_id];
       }
