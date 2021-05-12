@@ -27,7 +27,8 @@ public: /*public member variables*/
     Node* prev;   // the node it came from
   };
 
-private: /*private member variables/fucntions*/
+private:
+  // Debug flag to turn on debug print statements
   bool debug = false;
 
   /* Hashmap storing Node pointers, accessible using airport IATA IDs */

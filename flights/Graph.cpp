@@ -267,14 +267,29 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
   for (auto it = airports.begin(); it != airports.end(); it++) {
     // Complete an initial threshold check to see if the potential airport can feasibly be the central airport. If not, skip it.
     std::string currentAirport = it->first;
+    ++counter;
     if (routeDist(currentAirport, startingAirport) + routeDist(currentAirport, endingAirport) > minDistance) {
       if (debug) {
-        std::cout << "Skipping(Failed threshold): " << currentAirport << " " << ++counter << "/" << getAirportCount() << std::endl;
+        std::cout << "Skipping(Failed threshold): " << currentAirport << " " << counter << "/" << getAirportCount() << std::endl;
       }
       continue;
     } else if (debug) {
-      std::cout << "Currently searching: " << currentAirport << " " << ++counter << "/" << getAirportCount() << std::endl;
+      std::cout << "Currently searching: " << currentAirport << " " << counter << "/" << getAirportCount() << std::endl;
     }
+
+    // Update progress bar for cosmetic purposes
+    double progress = ((double) counter) / getAirportCount();
+    int barWidth = 70;
+
+    std::cout << "[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) std::cout << "=";
+        else if (i == pos) std::cout << ">";
+        else std::cout << " ";
+    }
+    std::cout << "] " << int(progress * 100.0) << "% - " << counter << "/" << getAirportCount() << "\r";
+    std::cout.flush();
 
     // Reset all of the data holders and calculations for the new airport.
     for (auto i = airports.begin(); i != airports.end(); i++) {
@@ -347,7 +362,8 @@ std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
 }
 
 std::string Graph::getCentralAirport(std::string startingAirport, std::string endingAirport) {
-  std::cout << "Calculating betweenness" << std::endl;
+  std::cout << "Finding the most central airport between: "<< startingAirport << " and " << endingAirport << std::endl;
+  std::cout << "Calculating betweenness for all airports:" << std::endl;
   std::map<std::string, double> betweenness = calculateBetweennessCentrality(startingAirport, endingAirport);
   std::cout << "Calculated." << std::endl;
 
