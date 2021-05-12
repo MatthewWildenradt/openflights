@@ -45,7 +45,9 @@ Within the `flights` folder there are 3 folders and 12 files which make up the b
  
 ### Test Suite Tags
 `[Djik]` - Runs tests related to the accuracy of Djikstra's algorithm and its edge cases
+
 `[Central]` - Runs tests related to the accuracy of between centrality mapping and its edge cases
+
 `[Graph]` - Runs tests related to the functions of the graph class. Contained in test_graph.cpp
 
 ### Adding additional test
