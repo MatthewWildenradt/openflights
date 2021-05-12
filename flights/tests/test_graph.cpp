@@ -47,12 +47,20 @@ TEST_CASE("Add_Route", "[Graph]") {
 }
 
 TEST_CASE("Add_Airport", "[Graph]") {
-  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
-  simpleGraph.addAirport(Airport("FOU", 44, 44));
-  REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
-  REQUIRE((simpleGraph.getAirport("THR") == Airport("THR", 13, 30)));
-  REQUIRE((simpleGraph.getAirport("FOU") == Airport("FOU", 44, 44)));
 
+  Graph simpleGraph(makeSimpleAirports(), makeSimpleRoutes());
+  SECTION("Standard"){
+    simpleGraph.addAirport(Airport("FOU", 44, 44));
+    REQUIRE((simpleGraph.getAirport("ONE") == Airport("ONE", 0, 0)));
+    REQUIRE((simpleGraph.getAirport("THR") == Airport("THR", 13, 30)));
+    REQUIRE((simpleGraph.getAirport("FOU") == Airport("FOU", 44, 44)));
+  }
+
+  SECTION("Invalid"){
+    std::vector<string> dummy = {};
+    simpleGraph.addAirport(dummy);
+    REQUIRE((simpleGraph.getAirport("") == Airport("N/A", 0, 0)));
+  }
 }
 
 TEST_CASE("Get_Airport", "[Graph]") {
@@ -66,4 +74,3 @@ TEST_CASE("Get_Airport", "[Graph]") {
         REQUIRE((simpleGraph.getAirport("AAH") == Airport("N/A", 0, 0)));
     }
 }
-

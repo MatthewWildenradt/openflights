@@ -39,16 +39,22 @@ int main() {
         if (command == 1 || command == 2) {
 
             std::string firstAirport, secondAirport;
-            std::cout << "Enter the source airport:(IATA ID)" << std::endl;
-            getline(std::cin, firstAirport);
+            std::cout << "Enter the source airport(IATA ID):" << std::endl;
+	    std::cin >> firstAirport;
+	    //getline(std::cin, firstAirport); was unable to enter input on this line for some reason, worked for secondAirport
             std::cout << "Enter the destination airport(IATA ID):" << std::endl;
-            getline(std::cin, secondAirport);
-
+            //getline(std::cin, secondAirport);
+	    std::cin >> secondAirport;
             if (command == 1) {
                 auto shortestPath = graph->shortestPath(firstAirport, secondAirport);
-                for(auto i = shortestPath.begin(); i != shortestPath.end(); ++i) {
-                    std::cout << *i << " -> ";
-                }
+		int limit = shortestPath.size();
+                for(int i = 0; i < limit; i++){
+		  if(i == limit-1){
+		    std::cout << shortestPath.at(i) << std::endl;
+		  } else{
+		    std::cout << shortestPath.at(i) << "->";
+		  }
+		}
                 std::cout << std::endl;
             } else {
                 std::cout << graph->getCentralAirport(firstAirport, secondAirport);

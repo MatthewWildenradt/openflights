@@ -2,12 +2,12 @@
 #include <cmath> //need math for our algorithms
 #include <limits> //need limits as well
 #include <unordered_set> //and sets
-#include <functional> //and functional
 #include <iostream> //need iostream for basic usability
+#include <algorithm> // for reverse function
 #include <stack>
 #include <queue>
 #include <list>
-#include <queue>
+
 
 using std::string; //need strings for location names
 using std::vector; //need vectors for collections of routes and airports
@@ -85,7 +85,7 @@ void Graph::addRoute(Route input){
       }
     } else if(!destExists){
       std::cout << "WARNING: Route not added. Destination airport " << input.dest << " not in graph." << std::endl;
-    } 
+    }
   }
 }
 
@@ -225,9 +225,17 @@ vector<string> Graph::shortestPath(string start, string end){ //shortest path al
   while(currentAirport != start){
     backwardPath.push_back(currentAirport);
     //std::cout << "Getting " << currentAirport << "\'s previous airport" << std::endl;
-    currentAirport = pathMap.at(currentAirport).prev->data.name;
+    auto curNode = pathMap.find(currentAirport);
+    if(curNode == pathMap.end()){
+      std::cout << "No path between " << start << " and " << end << std::endl;
+      return vector<string>();
+    }
+    currentAirport = curNode->second.prev->data.name;
+
   }
   // NOTE: This returns a "path" starting from the destination, that doesn't include the starting airport
+  backwardPath.push_back(start);
+  std::reverse(backwardPath.begin(), backwardPath.end());
   return backwardPath;
 }
 
@@ -272,7 +280,8 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
 
         while(!Q.empty()) {
           std::string currentNode = Q.top().second;
-          Q.pop();
+	  //std::cout << "Getting top node: " << currentNode << std::endl;
+	  Q.pop();
 
           if(!isInStack[currentNode]) {
             isInStack[currentNode] = true;
@@ -283,7 +292,8 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
 
               // @TODO Maybe this might be swapped with the source? Check back after adjacent routes are implemented
               std::string destinationNode = route.dest;
-
+	      //std::cout << distances[currentNode] + currentDistance << std::endl;
+	      //std::cout << distances[destinationNode] << std::endl;
               if(distances[destinationNode] > distances[currentNode] + currentDistance) {
                 distances[destinationNode] = distances[currentNode] + currentDistance;
                 Q.push(std::make_pair(distances[destinationNode], destinationNode));
@@ -302,20 +312,27 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
 
 
     double c = 0;
-
+    std::cout << "Stuff calculated." << std::endl;
     while(S.size() != 0) {
       std::string airport_id = S.top();
+      std::cout << "Getting top in stack" << std::endl;
       S.pop();
 
-      for(auto route : predecessor[airport_id]) {
+      std::cout << "Iterating over predecessor's routes" << std::endl;
+      for(auto route : predecessor.at(airport_id)) {
         std::string src = route->src;
-
+	std::cout << "Current route: " << src << std::endl;
+	std::cout << "Calculating C" << std::endl;
         c = (sp[src] / sp[airport_id] * (1 + delta[airport_id]));
 
+	std::cout << "Adding to edgeBetweenness" << std::endl;
         edgeBetweenness[route] += c;
+	std::cout << "Adding to delta" << std::endl;
         delta[src] += c;
+	std::cout << "Added to delta" << std::endl;
       }
 
+      std::cout << "Comparing airports" << std::endl;
       if(airport_id.compare(it->first) != 0) {
         betweenness[airport_id] += delta[airport_id];
       }
@@ -332,7 +349,9 @@ std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
 }
 
 std::string Graph::getCentralAirport(std::string startingAirport, std::string endingAirport) {
+  std::cout << "Calculating betweenness" << std::endl;
   std::map<std::string, double> betweenness = calculateBetweennessCentrality(startingAirport, endingAirport);
+  std::cout << "Calculated." << std::endl;
   double largest = std::numeric_limits<double>::min();
   std::string mostCentral = "";
 
