@@ -43,10 +43,10 @@ Within the `flights` folder there are 3 folders and 12 files which make up the b
 7. The remaining files make up our classes for routes, airports, and graphs, with the bulk of our code inside of them
 
  
-### Test Suite Information
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
+### Test Suite Tags
+`[Djik]` - Runs tests related to the accuracy of Djikstra's algorithm and its edge cases
+`[Central]` - Runs tests related to the accuracy of between centrality mapping and its edge cases
+`[Graph]` - Runs tests related to the functions of the graph class. Contained in test_graph.cpp
+
+### Adding additional test
+Helper functions are implemented in test files if the user wishes to add additional test cases. For visualizing the output of Djikstra's algorithm there is a custom vecToString function which prints the IATA of the airports in the output. There are also helper methods that construct a simple graph for testing the functions of the graph class. 
