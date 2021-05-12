@@ -60,11 +60,15 @@ void Graph::addAirport(vector<string> input){
     return;
   }
 
-  Airport addThis(input.at(inputLen-10), std::stod(input.at(inputLen-8)), std::stod(input.at(inputLen-7)));
-  Node* airportNode = new Node();
-  airportNode->data = addThis;
-  airports.insert(std::pair<string, Node*>(addThis.name, airportNode));
-  vertexCount++;
+  std::string airportName = input.at(inputLen-10);
+  double lon = std::stod(input.at(inputLen-8));
+  double lat = std::stod(input.at(inputLen-7));
+  // Skip airports without essential information.
+  if(airportName.length() < 3 || lon == 0 || lat == 0) {
+    return;
+  }
+  Airport addThis(airportName, lon, lat);
+  this->addAirport(addThis);
 }
 
 
@@ -279,9 +283,11 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
   for (auto it = airports.begin(); it != airports.end(); it++) {
     std::string currentAirport = it->first;
     if(routeDist(currentAirport, startingAirport) + routeDist(currentAirport, endingAirport) > minDistance) {
+      if(debug) {
       std::cout << "Skipping(Failed threshold): " << currentAirport << " " << ++counter << "/" << getAirportCount() << std::endl;
+            }
       continue;
-    } else {
+    } else if(debug) {
       std::cout << "Currently searching: " << currentAirport << " " << ++counter << "/" << getAirportCount() << std::endl;
     }
 
