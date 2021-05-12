@@ -1,5 +1,25 @@
 # padhi3-miw3-jorteg38-wpark26
 
+### Overview
+Our project allows for the ability for the user to interact and explore the OpenFlights dataset using data structures and algorithms. For our project, we have implemented a shortest path algorithm by using Dijkstra's algorithm and the Betwenness Centrality Algorithm.
+
+### Installation and Building
+
+1. Clone the git repository.
+2. While in the root of the git repo, run `./fetch_data.sh` in order to fetch the required data sets
+3. Navigate into `flights` using `cd flights` so that you're in the flights directory.
+3. Enter the command `make all` to build both the main executable and the tests
+
+#### Running the main program
+1. While in the `flights` directory run `./flights`.
+2. Follow the instructions on screen to interact with the dataset.
+    - *The main program contains a command line interface that loads the entire data set and allows for the user to run and interact with our algorithms.*
+
+#### Executing the test suite
+1. While in the `flights` directory run `./tests` to run the tests.
+
+#### Example Usage
+![](assets/usage_demo.gif)
 ### Linkage and Locations
 
 Our working directory is in a folder simply called `padhi3-miw3-jorteg38-wpark26`, and there are 9 files and one folder containted therein:
@@ -23,14 +43,6 @@ Within the `flights` folder there are 3 folders and 12 files which make up the b
 7. The remaining files make up our classes for routes, airports, and graphs, with the bulk of our code inside of them
 
  
-### Running the Program
-1. While in `padhi3-miw3-jorteg38-wpark26`, run `./fetch_data.sh` in order to fetch the requird data sets
-2. Navigate into `flights` using `cd flights` so that you're in the flights directory specifically
-3. Type `make flights` to compile the executables and `make test` if you want to compile our tests too
-4. While in the `flights` directory run `./test` to run our tests
-5. Type `./flights` to run our main method:
-    - *The main program contains a command line interface that loads the entire data set and allows for the user to run and interact with our algorithms.*
-
 ### Test Suite Information
 1. 
 2. 
