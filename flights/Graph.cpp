@@ -255,91 +255,84 @@ Airport Graph::getAirport(string name){
 }
 
 std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string startingAirport, std::string endingAirport) {
-    std::map<std::string, double> betweenness;
-    std::map<Route*, double> edgeBetweenness;
+  std::map<std::string, double> betweenness;
 
-    std::priority_queue<std::pair<double, std::string>, std::vector<std::pair<double, std::string>>, std::greater<std::pair<double, std::string>>> Q;
-    std::stack<std::string> S;
+  std::priority_queue<std::pair<double, std::string>, std::vector<std::pair<double, std::string>>, std::greater<std::pair<double, std::string>>> Q;
+  std::stack<std::string> S;
 
-    std::map<std::string, double> distances;
-    std::map<std::string, double> sp;
-    std::map<std::string, double> delta;
-    std::map<std::string, bool> isInStack;
-    std::map<std::string, std::list<Route*>> predecessor;
+  std::map<std::string, double> distances;
+  std::map<std::string, double> sp;
+  std::map<std::string, double> delta;
+  std::map<std::string, bool> isInStack;
+  std::map<std::string, std::list<std::string>> predecessor;
 
-    for (auto it = airports.begin(); it != airports.end(); it++) {
-        for (auto i = airports.begin(); i != airports.end(); i++) {
-            predecessor[i->first].clear();
-            distances[i->first] = std::numeric_limits<double>::max();
-            sp[i->first] = 0;
-            isInStack[i->first] = false;
-        }
-        distances[it->first] = 0;
-        sp[it->first] = 1;
-        Q.push(std::make_pair(distances[it->first], it->first));
+  int counter = 0;
+  for (auto it = airports.begin(); it != airports.end(); it++) {
+    std::cout << "Currently searching: " << it->first << " " << ++counter << "/" << getAirportCount() << std::endl;
 
-        while(!Q.empty()) {
-          std::string currentNode = Q.top().second;
-	  //std::cout << "Getting top node: " << currentNode << std::endl;
-	  Q.pop();
+    for (auto i = airports.begin(); i != airports.end(); i++) {
+      predecessor[i->first].clear();
+      distances[i->first] = std::numeric_limits<double>::max();
+      sp[i->first] = 0;
+      isInStack[i->first] = false;
+    }
+    distances[it->first] = 0;
+    sp[it->first] = 1;
+    Q.push(std::make_pair(distances[it->first], it->first));
 
-          if(!isInStack[currentNode]) {
-            isInStack[currentNode] = true;
-            S.push(currentNode);
-            std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(currentNode);
-            for(auto& route : adjRoutes) {
-              double currentDistance = routeDist(route);
+    while (!Q.empty()) {
+      std::string currentNode = Q.top().second;
+      // std::cout << "Getting top node: " << currentNode << std::endl;
+      Q.pop();
 
-              // @TODO Maybe this might be swapped with the source? Check back after adjacent routes are implemented
-              std::string destinationNode = route.dest;
-	      //std::cout << distances[currentNode] + currentDistance << std::endl;
-	      //std::cout << distances[destinationNode] << std::endl;
-              if(distances[destinationNode] > distances[currentNode] + currentDistance) {
-                distances[destinationNode] = distances[currentNode] + currentDistance;
-                Q.push(std::make_pair(distances[destinationNode], destinationNode));
-                sp[destinationNode] = 0;
-                predecessor[destinationNode].clear();
-              }
+      if (!isInStack[currentNode]) {
+        isInStack[currentNode] = true;
+        S.push(currentNode);
+        std::vector<Route> adjRoutes = this->getRoutesToAdjacentAirports(currentNode);
+        for (auto& route : adjRoutes) {
+          double currentDistance = routeDist(route);
 
-              // Way to check floating point numbers equality ignoring rounding errors
-              if(std::abs(distances[destinationNode] - (distances[currentNode] + currentDistance)) < 0.000000001) {
-                sp[destinationNode] = sp[destinationNode] + sp[currentNode];
-                predecessor[destinationNode].push_back(&route);
-              }
-            }
+          // @TODO Maybe this might be swapped with the source? Check back after adjacent routes are implemented
+          std::string destinationNode = route.dest;
+          // std::cout << distances[currentNode] + currentDistance << std::endl;
+          // std::cout << distances[destinationNode] << std::endl;
+          if (distances[destinationNode] > distances[currentNode] + currentDistance) {
+            distances[destinationNode] = distances[currentNode] + currentDistance;
+            Q.push(std::make_pair(distances[destinationNode], destinationNode));
+            sp[destinationNode] = 0;
+            predecessor[destinationNode].clear();
+          }
+
+          // Way to check floating point numbers equality ignoring rounding errors
+          if (std::abs(distances[destinationNode] - (distances[currentNode] + currentDistance)) < 0.000000001) {
+            sp[destinationNode] = sp[destinationNode] + sp[currentNode];
+            predecessor[destinationNode].push_back(route.src);
           }
         }
-
-
-    double c = 0;
-    //std::cout << "Stuff calculated." << std::endl;
-    while(S.size() != 0) {
-      std::string airport_id = S.top();
-      //std::cout << "Getting top in stack" << std::endl;
-      S.pop();
-
-      //std::cout << "Iterating over predecessor's routes" << std::endl;
-      for(auto route : predecessor.at(airport_id)) {
-        std::string src = route->src;
-	std::cout << "Current route: " << src << std::endl;
-	//std::cout << "Calculating C" << std::endl;
-        c = (sp[src] / sp[airport_id] * (1 + delta[airport_id]));
-
-	//std::cout << "Adding to edgeBetweenness" << std::endl;
-        edgeBetweenness[route] += c;
-	//std::cout << "Adding to delta" << std::endl;
-        delta[src] += c;
-	//std::cout << "Added to delta" << std::endl;
-      }
-
-      //std::cout << "Comparing airports" << std::endl;
-      if(airport_id.compare(it->first) != 0) {
-        betweenness[airport_id] += delta[airport_id];
       }
     }
 
+    double c = 0;
+    while (S.size() != 0) {
+      std::string airport_id = S.top();
+      // std::cout << "Getting top in stack" << std::endl;
+      S.pop();
+
+      for (std::string src : predecessor.at(airport_id)) {
+        // std::cout << "Calculating C" << std::endl;
+        c = (sp[src] / sp[airport_id] * (1 + delta[airport_id]));
+
+        // std::cout << "Adding to delta" << std::endl;
+        delta[src] += c;
+        // std::cout << "Added to delta" << std::endl;
+      }
+
+      // std::cout << "Comparing airports" << std::endl;
+      if (airport_id.compare(it->first) != 0) {
+        betweenness[airport_id] += delta[airport_id];
+      }
+    }
   }
-  // return std::make_pair(betweenness, edgeBetweenness);
   // Calculates the betweenness statistic, now we need to use it
   return betweenness;
 }
