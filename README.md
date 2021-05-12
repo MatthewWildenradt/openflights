@@ -25,7 +25,7 @@ Our project allows for the ability for the user to interact and explore the Open
 Our working directory is in a folder simply called `padhi3-miw3-jorteg38-wpark26`, and there are 9 files and one folder containted therein:
 1. The folder labeled `flights` contains the bulk of our relevant code, you will need to run `cd flights` to get into it
 2. The file `.-clang-format` is there to make sure everything is formatted according to the google style guide using clang
-3. The file `.gitignore exists` for the purpose of making sure we can extract data from linked files properly, which I`ll get into later
+3. The file `.gitignore` exists for the purpose of making sure we can extract data from linked files properly, which I`ll get into later
 4. The file `CONTRACT.md` is a straighforward description of the norms our team has been following for the project for personal reference
 5. The file `DEVLOG.md` is a weekly summary of what was accompished in a given week, maintained to provide context to our progress
 6. The file `PROPOSAL.md` is a description of what specific goals we chose and why, along with our inital plans on accomplishing them
