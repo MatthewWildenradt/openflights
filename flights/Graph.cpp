@@ -102,16 +102,23 @@ void Graph::addRoute(vector<string> input){
 // Returns KM
 double Graph::routeDist(Route route){ //gives the disance associated with a route
 
-  Airport start = airports.at(route.src)->data; //extract our starting airport
-  Airport finish = airports.at(route.dest)->data; //extract our ending airport
+  return routeDist(route.src, route.dest);
+}
 
+double Graph::routeDist(std::string start_id, std::string finish_id) {
+  Airport start = airports.at(start_id)->data; //extract our starting airport
+  Airport finish = airports.at(finish_id)->data; //extract our ending airport
+
+  return routeDist(start, finish);
+}
+
+double Graph::routeDist(Airport start, Airport finish) {
   double p = M_PI/180; //divide pi by 180
   double a = 0.5 - std::cos((finish.lat - start.lat) * p)/2 + //necessary calculations
              std::cos(start.lat * p) * std::cos(finish.lat * p) * //more calculations
              (1 - std::cos((finish.lon - start.lon) * p))/2; //even more calculations
 
   return 12742 * std::asin(std::sqrt(a)); //return our final distance result;
-
 }
 
 vector<string> Graph::shortestPath(string start, string end){ //shortest path algorithms that runs on Dijkstra's
@@ -255,6 +262,8 @@ Airport Graph::getAirport(string name){
 }
 
 std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string startingAirport, std::string endingAirport) {
+  double minDistance = 3 * routeDist(startingAirport, endingAirport);
+
   std::map<std::string, double> betweenness;
 
   std::priority_queue<std::pair<double, std::string>, std::vector<std::pair<double, std::string>>, std::greater<std::pair<double, std::string>>> Q;
@@ -268,7 +277,13 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
 
   int counter = 0;
   for (auto it = airports.begin(); it != airports.end(); it++) {
-    std::cout << "Currently searching: " << it->first << " " << ++counter << "/" << getAirportCount() << std::endl;
+    std::string currentAirport = it->first;
+    if(routeDist(currentAirport, startingAirport) + routeDist(currentAirport, endingAirport) > minDistance) {
+      std::cout << "Skipping(Failed threshold): " << currentAirport << " " << ++counter << "/" << getAirportCount() << std::endl;
+      continue;
+    } else {
+      std::cout << "Currently searching: " << currentAirport << " " << ++counter << "/" << getAirportCount() << std::endl;
+    }
 
     for (auto i = airports.begin(); i != airports.end(); i++) {
       predecessor[i->first].clear();
@@ -276,9 +291,9 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
       sp[i->first] = 0;
       isInStack[i->first] = false;
     }
-    distances[it->first] = 0;
-    sp[it->first] = 1;
-    Q.push(std::make_pair(distances[it->first], it->first));
+    distances[currentAirport] = 0;
+    sp[currentAirport] = 1;
+    Q.push(std::make_pair(distances[currentAirport], currentAirport));
 
     while (!Q.empty()) {
       std::string currentNode = Q.top().second;

@@ -56,7 +56,7 @@ int main() {
         }
         std::cout << std::endl;
       } else {
-        std::cout << graph->getCentralAirport(firstAirport, secondAirport);
+        std::cout << graph->getCentralAirport(firstAirport, secondAirport) << std::endl;
       }
     } else {
       if (command == 4) {

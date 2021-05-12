@@ -45,6 +45,8 @@ class Graph{
    *@param route the route in question
    */
   double routeDist(Route route);
+  double routeDist(Airport start, Airport finish);
+  double routeDist(std::string start_id, std::string finish_id);
 
 
  public: /*public member functions*/
