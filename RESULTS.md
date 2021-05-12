@@ -1,7 +1,7 @@
 # First a rundown of what our two algorithm's actually produce:
 
 Our shortestPath function intakes the name of a starting airport in IATA code and the name of a destination airport in IATA code and returns a vector of the IATA's
-of the airports on the shortest path. This is what we intended and originally described, so we have fufilled our goal for this method
+of the airports on the shortest path. This is what we intended and originally described, so we have fufilled our goal for this method.
 
 Our calculateBetweennessCentrality function intakes the names of two airports in IATA code and returns a map of the betweeness heuristics of all airports relative
 to those two airports. Our getCentralAirport function intakes the IATAs of a starting and ending airport, then uses calculateBetweennessCentrality to find the most
