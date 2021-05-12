@@ -1,2 +1,5 @@
 data/
-flights/.objs/
+flights/flights
+flights/test
+flights/.objs/*
+.vscode
