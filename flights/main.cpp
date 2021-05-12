@@ -4,76 +4,75 @@
 #include "csv_reader.h"
 
 int main() {
-    std::string airport_file_name = "../data/airports.dat";
-    std::string routes_file_name = "../data/routes.dat";
+  std::string airport_file_name = "../data/airports.dat";
+  std::string routes_file_name = "../data/routes.dat";
 
-    Graph* graph = new Graph();
+  Graph* graph = new Graph();
 
-    std::cout << "Loading Airports from: " << airport_file_name << std::endl;
-    CSVReader airport_reader(airport_file_name);
-    while (!airport_reader.eof()) {
-        graph->addAirport(airport_reader.nextLine());
+  std::cout << "Loading Airports from: " << airport_file_name << std::endl;
+  CSVReader airport_reader(airport_file_name);
+  while (!airport_reader.eof()) {
+    graph->addAirport(airport_reader.nextLine());
+  }
+  std::cout << "Finished loading airports: " << graph->getAirportCount() << std::endl;
+
+  std::cout << "Loading Routes from: " << routes_file_name << std::endl;
+  CSVReader route_reader(routes_file_name);
+  while (!route_reader.eof()) {
+    graph->addRoute(route_reader.nextLine());
+  }
+  std::cout << "Finished loading Routes: " << graph->getRouteCount() << std::endl;
+
+  std::string userInput = "3";
+
+  int command = 0;
+
+  while (userInput.length() != 0) {
+    try {
+      command = std::stoi(userInput);
+    } catch (std::invalid_argument) {
+      userInput = "3";
+      continue;
     }
-    std::cout << "Finished loading airports: " << graph->getAirportCount() << std::endl;
+    userInput = "3";
 
-    std::cout << "Loading Routes from: " << routes_file_name << std::endl;
-    CSVReader route_reader(routes_file_name);
-    while (!route_reader.eof()) {
-        graph->addRoute(route_reader.nextLine());
-    }
-    std::cout << "Finished loading Routes: " << graph->getRouteCount() << std::endl;
-
-    std::string userInput = "3";
-
-    int command = 0;
-
-    while (userInput.length() != 0) {
-        try {
-            command = std::stoi(userInput);
-        } catch (std::invalid_argument) {
-            userInput = "3";
-            continue;
+    if (command == 1 || command == 2) {
+      std::string firstAirport, secondAirport;
+      std::cout << "Enter the source airport(IATA ID):" << std::endl;
+      std::cin >> firstAirport;
+      // getline(std::cin, firstAirport); was unable to enter input on this line for some reason, worked for secondAirport
+      std::cout << "Enter the destination airport(IATA ID):" << std::endl;
+      // getline(std::cin, secondAirport);
+      std::cin >> secondAirport;
+      if (command == 1) {
+        auto shortestPath = graph->shortestPath(firstAirport, secondAirport);
+        int limit = shortestPath.size();
+        for (int i = 0; i < limit; i++) {
+          if (i == limit - 1) {
+            std::cout << shortestPath.at(i) << std::endl;
+          } else {
+            std::cout << shortestPath.at(i) << "->";
+          }
         }
-        userInput = "3";
-
-        if (command == 1 || command == 2) {
-
-            std::string firstAirport, secondAirport;
-            std::cout << "Enter the source airport(IATA ID):" << std::endl;
-	    std::cin >> firstAirport;
-	    //getline(std::cin, firstAirport); was unable to enter input on this line for some reason, worked for secondAirport
-            std::cout << "Enter the destination airport(IATA ID):" << std::endl;
-            //getline(std::cin, secondAirport);
-	    std::cin >> secondAirport;
-            if (command == 1) {
-                auto shortestPath = graph->shortestPath(firstAirport, secondAirport);
-		int limit = shortestPath.size();
-                for(int i = 0; i < limit; i++){
-		  if(i == limit-1){
-		    std::cout << shortestPath.at(i) << std::endl;
-		  } else{
-		    std::cout << shortestPath.at(i) << "->";
-		  }
-		}
-                std::cout << std::endl;
-            } else {
-                std::cout << graph->getCentralAirport(firstAirport, secondAirport);
-            }
-        } else {
-            if (command == 4) {
-                std::cout << "Quitting program..." << std::endl;
-                return 0;
-            } else if (command != 3) {
-                std::cout << "Invalid command. Please try again!" << std::endl;
-            }
-            std::cout << "Enter the corresponding number to whichever action you would like to execute:\n"
-                      << "1) Shortest Path\n"
-                      << "2) Betweeness Centrality\n"
-                      << "3) List Commands\n"
-                      << "4) Quit" << std::endl;
-            std::cin >> userInput;
-            continue;
-        }
+        std::cout << std::endl;
+      } else {
+        std::cout << graph->getCentralAirport(firstAirport, secondAirport);
+      }
+    } else {
+      if (command == 4) {
+        std::cout << "Quitting program..." << std::endl;
+        return 0;
+      } else if (command != 3) {
+        std::cout << "Invalid command. Please try again!" << std::endl;
+      }
+      std::cout << "Enter the corresponding number to whichever action you would like to execute:\n"
+                << "1) Shortest Path\n"
+                << "2) Betweeness Centrality\n"
+                << "3) List Commands\n"
+                << "4) Quit" << std::endl;
+      std::cin >> userInput;
+      continue;
     }
-    return 0;
+  }
+  return 0;
 }
