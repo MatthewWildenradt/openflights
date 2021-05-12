@@ -50,5 +50,5 @@ Within the `flights` folder there are 3 folders and 12 files which make up the b
 
 `[Graph]` - Runs tests related to the functions of the graph class. Contained in test_graph.cpp
 
-### Adding additional test
+### Adding additional tests
 Helper functions are implemented in test files if the user wishes to add additional test cases. For visualizing the output of Djikstra's algorithm there is a custom vecToString function which prints the IATA of the airports in the output. There are also helper methods that construct a simple graph for testing the functions of the graph class. 
