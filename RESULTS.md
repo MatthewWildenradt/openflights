@@ -18,4 +18,3 @@ These are the shortest path algorithm being demonstrated between two airports sh
 
 (That is, below are the shortest paths from Chicago's O'Hare (ORD) airport to our given destinations of choice
 along with the most central airport to our selection of favorite airports.)
-
