@@ -40,9 +40,9 @@ int main() {
       std::string firstAirport, secondAirport;
       std::cout << "Enter the source airport(IATA ID):" << std::endl;
       std::cin >> firstAirport;
-      // getline(std::cin, firstAirport); was unable to enter input on this line for some reason, worked for secondAirport
+
       std::cout << "Enter the destination airport(IATA ID):" << std::endl;
-      // getline(std::cin, secondAirport);
+
       std::cin >> secondAirport;
       if (command == 1) {
         auto shortestPath = graph->shortestPath(firstAirport, secondAirport);

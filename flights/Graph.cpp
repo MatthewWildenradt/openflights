@@ -278,15 +278,18 @@ std::map<std::string, double> Graph::calculateBetweennessCentrality(std::string 
     }
 
     // Update progress bar for cosmetic purposes
-    double progress = ((double) counter) / getAirportCount();
+    double progress = ((double)counter) / getAirportCount();
     int barWidth = 70;
 
     std::cout << "[";
     int pos = barWidth * progress;
     for (int i = 0; i < barWidth; ++i) {
-        if (i < pos) std::cout << "=";
-        else if (i == pos) std::cout << ">";
-        else std::cout << " ";
+      if (i < pos)
+        std::cout << "=";
+      else if (i == pos)
+        std::cout << ">";
+      else
+        std::cout << " ";
     }
     std::cout << "] " << int(progress * 100.0) << "% - " << counter << "/" << getAirportCount() << "\r";
     std::cout.flush();
@@ -362,7 +365,7 @@ std::vector<Route> Graph::getRoutesToAdjacentAirports(std::string airport_id) {
 }
 
 std::string Graph::getCentralAirport(std::string startingAirport, std::string endingAirport) {
-  std::cout << "Finding the most central airport between: "<< startingAirport << " and " << endingAirport << std::endl;
+  std::cout << "Finding the most central airport between: " << startingAirport << " and " << endingAirport << std::endl;
   std::cout << "Calculating betweenness for all airports:" << std::endl;
   std::map<std::string, double> betweenness = calculateBetweennessCentrality(startingAirport, endingAirport);
   std::cout << "Calculated." << std::endl;
