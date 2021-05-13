@@ -9,51 +9,13 @@ central airport between those airports. This is, unfortunately, not what we orig
 our function can only take one. Unfortately, we were not able to figure out how to successfully implement for multiple vetices before the deadline.
 
 # Now a quick demonstration of each algorithm being run on the dataset:
+This is the centrality algorithm showing the most central airport between Boston and JFK airport.
+![](assets/BOS_JFK.gif)
 
+These are the shortest path algorithm being demonstrated between two airports showing the shortest path between them. 
+![](assets/shortest_path.gif)
 # Below are our results as they pertain to our initial goals:
 
 (That is, below are the shortest paths from Chicago's O'Hare (ORD) airport to our given destinations of choice
 along with the most central airport to our selection of favorite airports.)
 
-### Anish's Results
-
-Destination Airport:
-
-Shortest Path from ORD:
-
-2 Favorite Airports:
-
-Most Central Airport:
-
-
-### Matt's Results:
-
-Destination Airport:
-
-Shortest Path from ORD:
-
-2 Favorite Airports:
-
-Most Central Airport:
-
-
-### Johan's Results
-
-Destination Airport:
-
-Shortest Path from ORD:
-
-2 Favorite Airports:
-
-Most Central Airport:
-
-
-### Wonjun's Results
-
-Destination Airport:
-
-Shortest Path from ORD:
-
-2 Favorite Airports:
-
-Most Central Airport:
