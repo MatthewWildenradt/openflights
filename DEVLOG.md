@@ -33,8 +33,8 @@ Week of 4/3/21
 5. Test are further improved
 
 Week of 4/10/21
-1. Finished betweenness centrality mapping algorithm
-2. Improved user interface too allow to easier inputs when testing the final product
+1. Finished betweenness centrality mapping algorithm for two location input
+2. Improved user interface too allow easier inputs when testing the final product
 3. Modified readme and results documents to be more through
 4. Finished recorded final presentation
 5. Expanded the Testing suite
