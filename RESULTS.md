@@ -8,9 +8,9 @@ to those two airports. Our getCentralAirport function intakes the IATAs of a sta
 central airport between those airports. This is, unfortunately, not what we originally intended, as the idea was to be able to input any number of vertices, but
 our function can only take one. Unfortately, we were not able to figure out how to successfully implement for multiple vetices before the deadline. Additionally, 
 we ran into an issue where, when two locations are particularly far from each other, the accuracy of results decreases, in exchange for the use of our pruning
-algorithm, which runs inside of calculateBetweennessCentrality to optimize the runtime. Realistically if runtime wasn't a big problem, we could find more accurate
-answers when inputs were further from each other, but we chose efficiency for most cases we care about instead of less efficiency for everything to accomadate
-extra use cases, for better or for worse.
+algorithm, which runs inside of calculateBetweennessCentrality to optimize the runtime. Realistically, if runtime wasn't a big problem, we could find more accurate
+answers when inputs were further from each other, but we chose efficiency for most cases we cared about instead of less efficiency for everything to accomadate
+extra use cases, for better or for worse. It's also important to note that our definition of centrality is based on how many paths can be taken from an airport to the two input airports, and not how geographically central it is, which leads to results which may initially seem unintuitive, but are in line with our goals.
 
 # Now a quick demonstration of each algorithm being run on the dataset:
 This is the centrality algorithm showing the most central airport between Boston and JFK airport.
