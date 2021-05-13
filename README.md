@@ -4,7 +4,7 @@
 Our project allows for the ability for the user to interact and explore the OpenFlights dataset using data structures and algorithms. For our project, we have implemented a shortest path algorithm by using Dijkstra's algorithm and the Betwenness Centrality Algorithm.
 
 ### Team Video
-[Click Here](https://drive.google.com/file/d/1a_rewYJTeqnLLjhTFK23xpJooIn20rzp/view)
+[Click Here](https://drive.google.com/file/d/1HoIqLy6-2Trm61j-eoWpmK0V2Q0SEuVR/view)
 
 ### Installation and Building
 
